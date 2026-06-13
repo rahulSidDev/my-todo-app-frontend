@@ -27,7 +27,7 @@ function SignupForm() {
 
     try {
       //api call
-      const res = await axios.post('http://localhost:4000/api/v1/user/otp', formData)
+      const res = await axios.post('https://my-todo-app-backend-bngt.onrender.com/api/v1/user/otp', formData)
       
       if (res.data.success) {
         navigate('/otp-verification', {state: formData})

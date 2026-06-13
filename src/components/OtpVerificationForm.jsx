@@ -23,7 +23,7 @@ function OtpVerificatoinForm() {
       event.preventDefault();
 
       //api call later
-      const res = await axios.post('http://localhost:4000/api/v1/user/signup', {...userData, ...formData})
+      const res = await axios.post('https://my-todo-app-backend-bngt.onrender.com/api/v1/user/signup', {...userData, ...formData})
 
       if (res.data.success) {
         alert('successfully created user.')

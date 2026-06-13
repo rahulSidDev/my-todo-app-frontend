@@ -30,7 +30,7 @@ function Dashboard() {
 
   const fetchTodos = async () => {
     try {
-      const res = await axios.get('http://localhost:4000/api/v1/getAllTodos', {withCredentials: true})
+      const res = await axios.get('https://my-todo-app-backend-bngt.onrender.com/api/v1/getAllTodos', {withCredentials: true})
       setTodos(res.data.data)
     }
     catch (error) {

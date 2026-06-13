@@ -10,7 +10,7 @@ const Navbar = () => {
   const logoutHandler = async () => {
     try {
       setIsLoggedIn(false)
-      const res = await axios.post('http://localhost:4000/api/v1/user/logout', {}, {withCredentials: true})
+      const res = await axios.post('https://my-todo-app-backend-bngt.onrender.com/api/v1/user/logout', {}, {withCredentials: true})
       navigate("/login")
     }
     catch (error) {

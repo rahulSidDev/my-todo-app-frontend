@@ -15,7 +15,7 @@ export function AuthProvider({children}) {
 
     const checkAuth = async () => {
         try{
-            const response = await axios.get("http://localhost:4000/api/v1/user/profile", {withCredentials: true});
+            const response = await axios.get("https://my-todo-app-backend-bngt.onrender.com/api/v1/user/profile", {withCredentials: true});
             
             if(response.data.success) {
                 const data = response.data;
