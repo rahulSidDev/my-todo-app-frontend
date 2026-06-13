@@ -5,7 +5,7 @@ import { AuthContext } from '../contexts/auth'
 
 function Dashboard() {
   const {isLoggedIn, user} = useContext(AuthContext)
-
+  console.log(user.user)
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-slate-100">
 
@@ -20,7 +20,7 @@ function Dashboard() {
       <div className="flex gap-4">
         {isLoggedIn ? (
           <>
-          <p className='font-bold text-4xl px-6 text-blue-950'>Welcome <i>{user?.data[0].name}</i>,</p>
+          <p className='font-bold text-4xl px-6 text-blue-950'>Welcome <i>{user.user[0].name}</i>,</p>
           <Link
             to="/dashboard"
             className="px-6 py-3 bg-blue-950 text-white rounded-md"
