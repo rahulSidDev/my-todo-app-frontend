@@ -43,7 +43,7 @@ function Dashboard() {
 
     try {
       const payload = {title: newtodo.title, description: newtodo.description}
-      const res = await axios.post("http://localhost:4000/api/v1/createTodo", payload, {withCredentials:true});
+      const res = await axios.post("https://my-todo-app-backend-bngt.onrender.com/api/v1/createTodo", payload, {withCredentials:true});
       fetchTodos();
 
       setNewtodo({title: "", description: ""})
@@ -55,7 +55,7 @@ function Dashboard() {
 
   const deleteTodo = async (id) => {
     try {
-      const rest = await axios.delete(`http://localhost:4000/api/v1/deleteTodo/${id}`, {withCredentials: true})
+      const rest = await axios.delete(`https://my-todo-app-backend-bngt.onrender.com/api/v1/deleteTodo/${id}`, {withCredentials: true})
       fetchTodos()
     }
     catch (e) {
@@ -65,7 +65,7 @@ function Dashboard() {
 
   const handleEditingTodo = async (id) => {
     try {
-      const res = await axios.put(`http://localhost:4000/api/v1/updateTodo/${id}`, editedTodo, {withCredentials: true})
+      const res = await axios.put(`https://my-todo-app-backend-bngt.onrender.com/api/v1/updateTodo/${id}`, editedTodo, {withCredentials: true})
       setEditState(null)
       setEditedTodo({
         title: "",
