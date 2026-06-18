@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/auth'
 
-function Dashboard() {
+function Home() {
   const {isLoggedIn, user} = useContext(AuthContext)
+  console.log(user)
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center bg-slate-100">
@@ -59,4 +60,4 @@ function Dashboard() {
   )
 }
 
-export default Dashboard
+export default Home
