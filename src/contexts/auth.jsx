@@ -20,7 +20,7 @@ export function AuthProvider({children}) {
       
       if(response.data.success) {
         const data = response.data;
-        setUser(data);
+        setUser(data.data[0]);
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);

@@ -22,8 +22,8 @@ export default function App() {
   
   return (
     <div> 
-      <Navbar /> 
-      <Routes> 
+      <Navbar />
+      <Routes>
         <Route path="/dashboard" element={<Dashboard />} /> 
         <Route path="/login" element={<Login />} /> 
         <Route path="/signup" element={<Signup />} /> 
