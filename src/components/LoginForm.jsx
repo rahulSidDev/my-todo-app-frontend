@@ -24,11 +24,15 @@ function LoginForm() {
       event.preventDefault();
 
       //api call later
-      const res = await axios.post('https://my-todo-app-backend-bngt.onrender.com/api/v1/user/login', formData, {withCredentials: true})
+      const res = await axios.post(
+        'https://my-todo-app-backend-bngt.onrender.com/api/v1/user/login', 
+        formData, 
+        {withCredentials: true}
+      )
 
       if (res.data.success) {
         setIsLoggedIn(true)
-        setUser(res.data)
+        setUser(res.data.user)
         navigate('/')
       }
     }

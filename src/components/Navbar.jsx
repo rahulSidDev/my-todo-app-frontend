@@ -19,8 +19,8 @@ const Navbar = () => {
   }
 
   return (
-    <div className="w-full h-[55px] shadow-sm px-8 shadow-gray-200 flex justify-between items-center">
-      <p className='font-[900] text-2xl'>MyTodo~APP</p>
+    <div className="fixed top-0 left-0 w-full h-[55px] px-8 shadow-gray-200 flex justify-between items-center">
+      <p className='font-[900] text-2xl text-blue-950'>MyTodo~APP</p>
       <ol className="flex gap-5 items-center text-xl">
         <Link to="/">
           <li>Home</li>
