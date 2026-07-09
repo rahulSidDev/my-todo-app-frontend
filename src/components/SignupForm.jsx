@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import { userOtp } from "../api/user";
 
 function SignupForm() {
   const navigate = useNavigate()
@@ -27,7 +27,7 @@ function SignupForm() {
 
     try {
       //api call
-      const res = await axios.post('https://my-todo-app-backend-bngt.onrender.com/api/v1/user/otp', formData)
+      const res = await userOtp(formData)
       
       if (res.data.success) {
         navigate('/otp-verification', {state: formData})

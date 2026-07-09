@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
+import { userSignup } from "../api/user";
 
 function OtpVerificatoinForm() {
   const navigate = useNavigate()
@@ -23,7 +23,7 @@ function OtpVerificatoinForm() {
       event.preventDefault();
 
       //api call later
-      const res = await axios.post('https://my-todo-app-backend-bngt.onrender.com/api/v1/user/signup', {...userData, ...formData})
+      const res = await userSignup({...userData, ...formData})
 
       if (res.data.success) {
         alert('successfully created user.')

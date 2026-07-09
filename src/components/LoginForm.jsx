@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
 import { AuthContext } from '../contexts/auth'
-import axios from "axios";
+import { userLogin } from '../api/user'
 
 function LoginForm() {
   const {isLoggedIn, setIsLoggedIn, user, setUser} = useContext(AuthContext)
@@ -24,11 +24,8 @@ function LoginForm() {
       event.preventDefault();
 
       //api call later
-      const res = await axios.post(
-        'https://my-todo-app-backend-bngt.onrender.com/api/v1/user/login', 
-        formData, 
-        {withCredentials: true}
-      )
+      console.log(import.meta.env.VITE_BACKEND_URL);
+      const res = await userLogin(formData)
 
       if (res.data.success) {
         setIsLoggedIn(true)

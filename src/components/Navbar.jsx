@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { AuthContext } from '../contexts/auth'
 import { useNavigate, Link} from 'react-router-dom'
-import axios from 'axios'
+import { userLogout } from '../api/user'
 
 const Navbar = () => {
   const {isLoggedIn, setIsLoggedIn} = useContext(AuthContext);
@@ -10,7 +10,7 @@ const Navbar = () => {
   const logoutHandler = async () => {
     try {
       setIsLoggedIn(false)
-      const res = await axios.post('https://my-todo-app-backend-bngt.onrender.com/api/v1/user/logout', {}, {withCredentials: true})
+      const res = await userLogout({})
       navigate("/login")
     }
     catch (error) {

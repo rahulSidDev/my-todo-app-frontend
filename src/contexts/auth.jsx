@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import axios from "axios";
+import { userProfile } from '../api/user'
 
 //Create context
 export const AuthContext = createContext();
@@ -16,7 +16,7 @@ export function AuthProvider({children}) {
 
   const checkAuth = async () => {
     try{
-      const response = await axios.get("https://my-todo-app-backend-bngt.onrender.com/api/v1/user/profile", {withCredentials: true});
+      const response = await userProfile()
       
       if(response.data.success) {
         const data = response.data;
