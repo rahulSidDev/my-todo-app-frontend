@@ -3,7 +3,7 @@ import { AuthContext } from "../contexts/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { userLogout } from "../api/user";
 
-const Navbar = () => {
+export default () => {
 	const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
 	const navigate = useNavigate();
@@ -18,8 +18,10 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className="fixed top-0 left-0 w-full h-[55px] px-8 shadow-gray-200 flex justify-between items-center">
-			<p className="font-[900] text-2xl text-blue-950">MyTodo~APP</p>
+		<div className="fixed top-0 left-0 w-full h-[55px] px-8 shadow shadow-gray-300 flex justify-between items-center">
+			<Link to="/">
+				<p className="font-[900] text-2xl text-blue-950">MyTodo~APP</p>
+			</Link>
 			<ol className="flex gap-5 items-center text-xl">
 				<Link to="/">
 					<li>Home</li>
@@ -42,5 +44,3 @@ const Navbar = () => {
 		</div>
 	);
 };
-
-export default Navbar;
