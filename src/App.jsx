@@ -8,6 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 import { useContext } from "react";
 
@@ -31,6 +32,7 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
+            <Footer />
         </div>
     );
 }
