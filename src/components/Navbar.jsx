@@ -18,28 +18,42 @@ const Navbar = () => {
 	};
 
 	return (
-		<div className="fixed top-0 left-0 w-full h-[55px] px-8 shadow-gray-200 flex justify-between items-center">
-			<p className="font-[900] text-2xl text-blue-950">MyTodo~APP</p>
+		<nav className="
+		fixed
+		top-0
+		left-0
+		w-full
+		h-[55px]
+		px-8
+		bg-white
+		border-b
+		border-gray-200
+		z-50
+		flex
+		justify-between
+		items-center
+		">			
+			<p className="hover:underline transition duration-200 font-[900] text-2xl text-blue-950">[MyTodo~APP]</p>
 			<ol className="flex gap-5 items-center text-xl">
-				<Link to="/">
+				<Link className="hover:underline transition duration-200" to="/">
 					<li>Home</li>
 				</Link>
 				{isLoggedIn ? (
-					<Link to="/dashboard">
+					<Link className="hover:underline transition duration-200" to="/dashboard">
 						<li>Dashboard</li>
 					</Link>
 				) : (
 					""
 				)}
 				{isLoggedIn ? (
-					<button onClick={logoutHandler}>Logout</button>
+					<button className="hover:underline transition duration-200" onClick={logoutHandler}>Logout</button>
 				) : (
-					<Link to="/login">
+					<Link className="hover:underline transition duration-200" to="/login">
 						<li>Login</li>
 					</Link>
 				)}
 			</ol>
-		</div>
+		</nav>
 	);
 };
 
