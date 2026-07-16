@@ -3,7 +3,7 @@ import { AuthContext } from "../contexts/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { userLogout } from "../api/user";
 
-const Navbar = () => {
+export default () => {
 	const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
 	const navigate = useNavigate();
@@ -56,5 +56,3 @@ const Navbar = () => {
 		</nav>
 	);
 };
-
-export default Navbar;
