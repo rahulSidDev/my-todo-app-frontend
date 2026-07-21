@@ -4,8 +4,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import OtpVerification from "./pages/OtpVerification";
-import Dashboard from "./pages/Dashboard";
+import MyNotes from "./pages/MyNotes";
 import NotFound from "./pages/NotFound";
+import Note from "./pages/Note";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -25,7 +26,8 @@ export default function App() {
         <div>
             <Navbar />
             <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/note/:id" element={<Note />} />
+                <Route path="/my-notes" element={<MyNotes />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/otp-verification" element={<OtpVerification />} />

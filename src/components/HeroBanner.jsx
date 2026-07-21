@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 export default function HeroBanner () {
     const navigate = useNavigate()
 
-    const onClickGoToDashboard = () => navigate('/dashboard')
+    const onClickGoToDashboard = () => navigate('/my-notes')
     const onClickSignup = () => navigate('/signup')
 
     return (

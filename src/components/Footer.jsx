@@ -33,7 +33,7 @@ export default function Footer () {
                         </h4>
                         <ul className="space-y-3">
                             <li className="hover:underline transition"><Link to='/'>Home</Link></li>
-                            <li className="hover:underline transition"><Link to='/dashboard'>Dashboard</Link></li>
+                            <li className="hover:underline transition"><Link to='/my-notes'>My-Notes</Link></li>
                             <li className="hover:underline transition"><Link to='/login'>Login</Link></li>
                             <li className="hover:underline transition"><Link to='/signup'>Signup</Link></li>
                         </ul>
