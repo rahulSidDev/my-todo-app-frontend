@@ -31,7 +31,7 @@ function LoginForm() {
             if (res.data.success) {
                 setIsLoggedIn(true);
                 setUser(res.data.user);
-                navigate("/");
+                navigate("/my-notes");
             }
         } catch (error) {
             console.log(error.message);

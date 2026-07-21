@@ -39,8 +39,8 @@ export default () => {
 					<li>Home</li>
 				</Link>
 				{isLoggedIn ? (
-					<Link className="hover:underline transition duration-200" to="/dashboard">
-						<li>Dashboard</li>
+					<Link className="hover:underline transition duration-200" to="/my-notes">
+						<li>My-Notes</li>
 					</Link>
 				) : (
 					""
