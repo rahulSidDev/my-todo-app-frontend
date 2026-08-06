@@ -4,12 +4,12 @@ import { AuthContext } from "../contexts/auth.jsx";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-    const { isLoggedIn } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isLoggedIn) {
-            navigate("/dashboard");
+        if (user) {
+            navigate("/my-notes");
         }
     }, []);
 

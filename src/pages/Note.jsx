@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { todoDelete, todoGetOne, todoUpdate } from "../api/todos"
+import { todoDelete, todoGetOne, todoUpdate } from "../api/notes"
 import { MdDelete } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
 
@@ -23,7 +23,7 @@ export default function Note () {
         setNote(response.data.data)
         setEditedNote({
             title: response.data.data.title,
-            description: response.data.data.description
+            content: response.data.data.content
         })
     }
 
@@ -60,7 +60,7 @@ export default function Note () {
                 note._id,
                 {
                     title: editedNote.title,
-                    description: editedNote.description
+                    content: editedNote.content
                 }
             )
 
@@ -78,7 +78,7 @@ export default function Note () {
 
     const handleCancel = () => {
         setEditingmode(false)
-        setEditedNote({title: note.title, description: note.description})
+        setEditedNote({title: note.title, content: note.content})
     }
 
     if (!note) {
@@ -103,7 +103,7 @@ export default function Note () {
                         hover:text-black
                     "
                 >
-                    ← Back to Notes
+                    Back to My-Notes
                 </button>
 
                 <div className="flex justify-between items-start mb-6">
@@ -134,11 +134,11 @@ export default function Note () {
                         handleSave={handleSave}
                     />
                 </div>
-                <NoteDesc
+                <NoteContent
                     editedNote={editedNote}
                     setEditedNote={setEditedNote}
                     editingmode={editingmode}
-                    description={note.description}
+                    content={note.content}
                 />
             </div>
         </main>
@@ -164,23 +164,185 @@ function NoteTitle ({editingmode, title, editedNote, setEditedNote}) {
     )
 }
 
-function NoteDesc ({editingmode, description, editedNote, setEditedNote}) {
+function NoteContent ({
+    editingmode, 
+    content, 
+    editedNote, 
+    setEditedNote
+}) {
     if (editingmode) {
+
         return (
-            <textarea
-                value={editedNote.description}
-                onChange={(e) => setEditedNote({...editedNote, description: e.target.value})}
-                rows={10}
-                className="w-full border rounded-xl p-4"
-            />
-        )
+
+            <div className="space-y-4">
+
+                {editedNote.content.map((block, index) => (
+
+                    <div key={index}>
+
+                        {/* Text Block */}
+
+                        {block.type === "text" && (
+
+                            <textarea
+                                value={block.content}
+                                onChange={(e) => {
+
+                                    const updatedContent =
+                                        [...editedNote.content];
+
+                                    updatedContent[index] = {
+                                        ...block,
+                                        content: e.target.value
+                                    };
+
+                                    setEditedNote({
+                                        ...editedNote,
+                                        content: updatedContent
+                                    });
+
+                                }}
+                                rows={4}
+                                className="
+                                    w-full
+                                    border
+                                    rounded-xl
+                                    p-4
+                                "
+                            />
+
+                        )}
+
+                        {/* Checklist Block */}
+
+                        {block.type === "checklist" && (
+
+                            <div className="
+                                flex
+                                items-center
+                                gap-3
+                            ">
+
+                                <input
+                                    type="checkbox"
+                                    checked={block.completed}
+                                    onChange={() => {
+
+                                        const updatedContent =
+                                            [...editedNote.content];
+
+                                        updatedContent[index] = {
+                                            ...block,
+                                            completed:
+                                                !block.completed
+                                        };
+
+                                        setEditedNote({
+                                            ...editedNote,
+                                            content:
+                                                updatedContent
+                                        });
+
+                                    }}
+                                />
+
+                                <input
+                                    type="text"
+                                    value={block.content}
+                                    onChange={(e) => {
+
+                                        const updatedContent =
+                                            [...editedNote.content];
+
+                                        updatedContent[index] = {
+                                            ...block,
+                                            content:
+                                                e.target.value
+                                        };
+
+                                        setEditedNote({
+                                            ...editedNote,
+                                            content:
+                                                updatedContent
+                                        });
+
+                                    }}
+                                    className="
+                                        flex-1
+                                        border
+                                        rounded-xl
+                                        p-3
+                                    "
+                                />
+
+                            </div>
+
+                        )}
+
+                    </div>
+
+                ))}
+
+            </div>
+
+        );
+
     }
 
     return (
-        <div className="whitespace-pre-wrap leading-relaxed">
-            {description}
+
+        <div className="space-y-4">
+
+            {content.map((block, index) => (
+
+                <div key={index}>
+
+                    {block.type === "text" && (
+
+                        <p className="
+                            whitespace-pre-wrap
+                            leading-relaxed
+                        ">
+                            {block.content}
+                        </p>
+
+                    )}
+
+                    {block.type === "checklist" && (
+
+                        <div className="
+                            flex
+                            items-center
+                            gap-3
+                        ">
+
+                            <input
+                                type="checkbox"
+                                checked={block.completed}
+                                readOnly
+                            />
+
+                            <span
+                                className={
+                                    block.completed
+                                        ? "line-through text-gray-500"
+                                        : ""
+                                }
+                            >
+                                {block.content}
+                            </span>
+
+                        </div>
+
+                    )}
+
+                </div>
+
+            ))}
+
         </div>
-    )
+
+    );
 }
 
 function NoteButtons ({editingmode, handleDelete, handleCancel, handleEdit, handleSave}) {

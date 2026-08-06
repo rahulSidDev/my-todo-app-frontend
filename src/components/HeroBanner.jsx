@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 export default function HeroBanner () {
     const navigate = useNavigate()
 
-    const onClickGoToDashboard = () => navigate('/my-notes')
+    const onClickGoToMyNotes = () => navigate('/my-notes')
     const onClickSignup = () => navigate('/signup')
 
     return (
@@ -32,8 +32,8 @@ export default function HeroBanner () {
                     </p>
 
                     <div className="flex flex-wrap gap-4 mt-8">
-                        <button onClick={onClickGoToDashboard} className="bg-blue-950 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition">
-                            Go To Dashboard
+                        <button onClick={onClickGoToMyNotes} className="bg-blue-950 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition">
+                            See all My Notes
                         </button>
 
                         <button onClick={onClickSignup} className="border border-gray-300 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition">

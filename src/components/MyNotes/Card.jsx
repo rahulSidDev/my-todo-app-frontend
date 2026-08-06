@@ -1,49 +1,117 @@
 import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { todoDelete } from "../../api/notes";
+
+function generatePreview(content) {
+    return content.map(block => {
+
+        if(block.type === "checklist"){
+            return (
+                <div
+                    key={block._id}
+                    className="flex items-center gap-2"
+                >
+                    <input
+                        type="checkbox"
+                        checked={block.completed}
+                        readOnly
+                        className="w-4 h-4"
+                    />
+
+                    <span
+                        className={
+                            block.completed
+                                ? "line-through text-gray-400"
+                                : ""
+                        }
+                    >
+                        {block.content}
+                    </span>
+                </div>
+            )
+        }
+
+        return (
+            <div key={block._id}>
+                {block.content}
+            </div>
+        )
+
+    })
+
+}
 
 export default function Card ({note, deleteNote}) {
-    const formattedDate = new Date(note.createdAt)
-    .toLocaleDateString("en-AU", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
-    });
+    const preview = generatePreview(note.content);
 
     return (
-        <div className="
-            bg-white
-            rounded-xl
-            p-5
-            shadow-sm
-            border
-            cursor-grab
-            hover:shadow-lg
-            transition
-        ">
-            <p className="font-semibold text-lg">
-                <Link to={`/note/${note._id}`}  className="text-xl font-bold hover:underline">
-                    {note.title}
-                </Link>
-            </p>
-            <p className="
-                text-gray-600
-                mt-3
-                line-clamp-4
-            ">
-                {note.description}
-            </p>
+        <div
+            className="
+                h-64
+                w-full
+                bg-white
+                rounded-2xl
+                shadow
+                p-5
+                flex
+                flex-col
+            "
+        >
+            <Link
+                to={`/note/${note._id}`}
+                className="
+                    text-xl
+                    font-bold
+                    mb-4
+                    hover:underline
+                "
+            >
+                {note.title}
+            </Link>
+            <div
+                className="
+                    text-gray-600
+                    overflow-hidden
+                    line-clamp-5
+                    whitespace-pre-wrap
+                "
+            >
+                {preview}
+            </div>
             {/* Footer */}
-            <div className="flex justify-between items-center mt-auto pt-4">
-                <span className="text-sm text-gray-500">
-                    {formattedDate}
+            <div
+                className="
+                    mt-auto
+                    flex
+                    justify-between
+                    items-center
+                    pt-4
+                "
+            >
+
+                {/* Created date */}
+                <span
+                    className="
+                        text-sm
+                        text-gray-400
+                    "
+                >
+                    {new Date(note.createdAt).toLocaleDateString()}
                 </span>
 
+
+                {/* Delete button */}
                 <button
                     onClick={() => deleteNote(note._id)}
-                    className="text-red-500 hover:text-red-600"
+                    className="
+                        text-red-500
+                        hover:text-red-700
+                        font-medium
+                    "
                 >
                     <MdDelete size={25} />
                 </button>
+
             </div>
         </div>
     )

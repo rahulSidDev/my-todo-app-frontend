@@ -7,6 +7,7 @@ import OtpVerification from "./pages/OtpVerification";
 import MyNotes from "./pages/MyNotes";
 import NotFound from "./pages/NotFound";
 import Note from "./pages/Note";
+import Profile from "./pages/Profile";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -16,7 +17,7 @@ import { useContext } from "react";
 import { AuthContext } from "./contexts/auth";
 
 export default function App() {
-    const { isLoggedIn, loading } = useContext(AuthContext);
+    const { user, loading } = useContext(AuthContext);
 
     if (loading) {
         return <div></div>;
@@ -33,6 +34,7 @@ export default function App() {
                 <Route path="/otp-verification" element={<OtpVerification />} />
                 <Route path="/" element={<Home />} />
                 <Route path="*" element={<NotFound />} />
+                <Route path="/profile" element={<Profile />} />
             </Routes>
             <Footer />
         </div>

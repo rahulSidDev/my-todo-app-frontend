@@ -6,17 +6,17 @@ import Grid from "../components/MyNotes/Grid"
 import Toolbar from "../components/MyNotes/Toolbar"
 import CreateNote from "../components/MyNotes/CreateNote"
 
-import { todoGetAll, todoDelete, todoCreate } from '../api/todos'
+import { todoGetAll, todoDelete, todoCreate } from '../api/notes'
 
 export default function MyNotes() {
     const [notes, setNotes] = useState([])
     const [showCreateNote, setShowCreateNote] = useState(false)
 
     const navigate = useNavigate()
-    const {isLoggedIn} = useContext(AuthContext)
+    const {user} = useContext(AuthContext)
 
     useEffect(() => {
-        if (!isLoggedIn) {
+        if (!user) {
             navigate('/login')
         } else {
             fetchAllNotes()
