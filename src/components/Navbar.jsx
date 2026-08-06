@@ -4,12 +4,12 @@ import { useNavigate, Link } from "react-router-dom";
 import { userLogout } from "../api/user";
 
 export default () => {
-	const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
+	const { user, setUser } = useContext(AuthContext);
 
 	const navigate = useNavigate();
 	const logoutHandler = async () => {
 		try {
-			setIsLoggedIn(false);
+			setUser(null);
 			const res = await userLogout({});
 			navigate("/login");
 		} catch (error) {
@@ -38,14 +38,21 @@ export default () => {
 				<Link className="hover:underline transition duration-200" to="/">
 					<li>Home</li>
 				</Link>
-				{isLoggedIn ? (
+				{user ? (
 					<Link className="hover:underline transition duration-200" to="/my-notes">
 						<li>My-Notes</li>
 					</Link>
 				) : (
 					""
 				)}
-				{isLoggedIn ? (
+				{user ? (
+					<Link className="hover:underline transition duration-200" to="/profile">
+						<li>Profile</li>
+					</Link>
+				) : (
+					""
+				)}
+				{user ? (
 					<button className="hover:underline transition duration-200" onClick={logoutHandler}>Logout</button>
 				) : (
 					<Link className="hover:underline transition duration-200" to="/login">

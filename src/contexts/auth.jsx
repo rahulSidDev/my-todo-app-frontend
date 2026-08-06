@@ -7,7 +7,6 @@ export const AuthContext = createContext();
 //Provider
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,11 +18,9 @@ export function AuthProvider({ children }) {
             const response = await userProfile();
 
             if (response.data.success) {
-                const data = response.data;
-                setUser(data.data[0]);
-                setIsLoggedIn(true);
+                setUser(response.data.data);
             } else {
-                setIsLoggedIn(false);
+                setUser(null);
             }
         } catch (e) {
             console.log(e.message);
@@ -35,10 +32,9 @@ export function AuthProvider({ children }) {
 
     const value = {
         user,
-        isLoggedIn,
         loading,
-        setIsLoggedIn,
         setUser,
+        setLoading
     };
 
     return (

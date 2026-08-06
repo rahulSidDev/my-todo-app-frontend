@@ -4,8 +4,7 @@ import { AuthContext } from "../contexts/auth";
 import { userLogin } from "../api/user";
 
 function LoginForm() {
-    const { isLoggedIn, setIsLoggedIn, user, setUser } =
-        useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -25,11 +24,9 @@ function LoginForm() {
             event.preventDefault();
 
             //api call later
-            console.log(import.meta.env.VITE_BACKEND_URL);
             const res = await userLogin(formData);
 
             if (res.data.success) {
-                setIsLoggedIn(true);
                 setUser(res.data.user);
                 navigate("/my-notes");
             }
@@ -88,10 +85,9 @@ function LoginForm() {
                     {/* Form Bottom Part */}
                     <div className="w-full h-[20%] flex flex-col py-2 gap-2">
                         <div className="text-center text-sm">
-                            Forget{" "}
                             <span>
                                 <a href="#" className="text-blue-500">
-                                    Password?
+                                    Forgot Password
                                 </a>
                             </span>
                         </div>

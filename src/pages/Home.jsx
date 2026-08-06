@@ -9,7 +9,7 @@ import HowItWorks from "../components/HowItWorks";
 import TechStack from "../components/TechStack";
 
 function Home() {
-    const { isLoggedIn, user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     return (
         <>
