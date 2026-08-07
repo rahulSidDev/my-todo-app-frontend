@@ -15,6 +15,7 @@ import Footer from "./components/Footer";
 import { useContext } from "react";
 
 import { AuthContext } from "./contexts/auth";
+import TrashBin from "./pages/TrashBin";
 
 export default function App() {
     const { user, loading } = useContext(AuthContext);
@@ -33,6 +34,7 @@ export default function App() {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/otp-verification" element={<OtpVerification />} />
                 <Route path="/" element={<Home />} />
+                <Route path="/trash-bin" element={<TrashBin />} />
                 <Route path="*" element={<NotFound />} />
                 <Route path="/profile" element={<Profile />} />
             </Routes>

@@ -1,6 +1,6 @@
 import { MdDelete } from "react-icons/md";
+import { GrUndo } from "react-icons/gr";
 import { Link } from "react-router-dom";
-import { todoDelete } from "../../api/notes";
 
 function generatePreview(content) {
     return content.map(block => {
@@ -41,7 +41,7 @@ function generatePreview(content) {
 
 }
 
-export default function Card ({note, deleteNote}) {
+export default function Card ({note, deleteNote, restoreNote}) {
     const preview = generatePreview(note.content);
 
     return (
@@ -99,18 +99,33 @@ export default function Card ({note, deleteNote}) {
                     {new Date(note.createdAt).toLocaleDateString()}
                 </span>
 
-
-                {/* Delete button */}
-                <button
-                    onClick={() => deleteNote(note._id)}
-                    className="
-                        text-red-500
-                        hover:text-red-700
-                        font-medium
-                    "
-                >
-                    <MdDelete size={25} />
-                </button>
+                <span>
+                    {
+                        note.isTrashed ?
+                        <button
+                            onClick={() => restoreNote(note._id)}
+                            className="
+                                text-blue-500
+                                hover:text-blue-700
+                                font-medium
+                                px-4
+                            "
+                        >
+                            <GrUndo size={25} />
+                        </button> : ''
+                    }
+                    {/* Delete button */}
+                    <button
+                        onClick={() => deleteNote(note._id)}
+                        className="
+                            text-red-500
+                            hover:text-red-700
+                            font-medium
+                        "
+                    >
+                        <MdDelete size={25} />
+                    </button>
+                </span>
 
             </div>
         </div>

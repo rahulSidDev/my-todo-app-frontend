@@ -46,6 +46,13 @@ export default () => {
 					""
 				)}
 				{user ? (
+					<Link className="hover:underline transition duration-200" to="/trash-bin">
+						<li>Trash-Bin</li>
+					</Link>
+				) : (
+					""
+				)}
+				{user ? (
 					<Link className="hover:underline transition duration-200" to="/profile">
 						<li>Profile</li>
 					</Link>
