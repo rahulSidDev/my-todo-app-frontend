@@ -5,8 +5,12 @@ export const todoCreate = (data) => axiosInstance.post(
     data
 );
 
-export const todoDelete = (id) => axiosInstance.delete(
+export const todoDeleteOne = (id) => axiosInstance.delete(
     `/note/${id}`
+);
+
+export const todoDeleteAll = () => axiosInstance.delete(
+    `/note`
 );
 
 export const todoGetOne = (id) => axiosInstance.get(
@@ -21,3 +25,15 @@ export const todoUpdate = (id, data) => axiosInstance.put(
     `/note/${id}`, 
     data
 );
+
+export const noteGetTrashed = () => axiosInstance.get(
+    '/note/trashed'
+)
+
+export const noteMoveToTrash = (id) => axiosInstance.patch(
+    `/note/trash/${id}`
+)
+
+export const noteRestore = (id) => axiosInstance.patch(
+    `/note/restore/${id}`
+)

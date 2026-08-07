@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { todoDelete, todoGetOne, todoUpdate } from "../api/notes"
+import { noteMoveToTrash, todoGetOne, todoUpdate } from "../api/notes"
 import { MdDelete } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
 
@@ -41,7 +41,7 @@ export default function Note () {
 
     const handleDelete = async () => {
         try {
-            const response = await todoDelete(note._id)
+            const response = await noteMoveToTrash(note._id)
             if (response.status === 200) {
                 navigate('/my-notes')
             }

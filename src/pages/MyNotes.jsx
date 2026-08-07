@@ -6,7 +6,7 @@ import Grid from "../components/MyNotes/Grid"
 import Toolbar from "../components/MyNotes/Toolbar"
 import CreateNote from "../components/MyNotes/CreateNote"
 
-import { todoGetAll, todoDelete, todoCreate } from '../api/notes'
+import { todoGetAll, noteMoveToTrash, todoCreate } from '../api/notes'
 
 export default function MyNotes() {
     const [notes, setNotes] = useState([])
@@ -36,7 +36,7 @@ export default function MyNotes() {
 
     const deleteNote = async (id) => {
         try {
-            await todoDelete(id)
+            await noteMoveToTrash(id)
             setNotes(notes.filter(note => note._id !== id))
         }
         catch (e) {
