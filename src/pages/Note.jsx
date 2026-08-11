@@ -1,11 +1,35 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { noteMoveToTrash, todoGetOne, todoUpdate } from "../api/notes"
+import { noteMoveToTrash, todoGetOne, todoUpdate, noteCheckCheckbox } from "../api/notes"
 import { MdDelete } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
+import { AuthContext } from "../contexts/auth";
+
+function getSingleNoteColor(
+    preference,
+    index = 0
+) {
+
+    if (preference === "pink") {
+        return "bg-pink-300";
+    }
+
+    if (preference === "yellow") {
+        return "bg-yellow-300";
+    }
+
+    if (preference === "alternate") {
+
+        return index % 2 === 0
+            ? "bg-pink-300"
+            : "bg-yellow-300";
+    }
+
+}
 
 export default function Note () {
     const {id} = useParams()
+    const {user} = useContext(AuthContext)
 
     const [note, setNote] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -81,6 +105,19 @@ export default function Note () {
         setEditedNote({title: note.title, content: note.content})
     }
 
+    const updateCheckbox = async (contentID) => {
+        try {
+            const response = await noteCheckCheckbox(
+                note._id, 
+                {contentID: contentID}
+            )
+            setNote(response.data.data)
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+    }
+
     if (!note) {
         return (
             <div className="pt-[55px] p-8">
@@ -89,8 +126,10 @@ export default function Note () {
         );
     }
 
+    const noteColor = getSingleNoteColor(user.colorPreference, note.order)
+
     return (
-        <main className="pt-[55px] min-h-screen bg-slate-50">
+        <main className={`pt-[55px] min-h-screen ${noteColor}`}>
 
             <div className="max-w-4xl mx-auto px-6 py-10">
 
@@ -139,6 +178,7 @@ export default function Note () {
                     setEditedNote={setEditedNote}
                     editingmode={editingmode}
                     content={note.content}
+                    updateCheckbox={updateCheckbox}
                 />
             </div>
         </main>
@@ -168,7 +208,8 @@ function NoteContent ({
     editingmode, 
     content, 
     editedNote, 
-    setEditedNote
+    setEditedNote,
+    updateCheckbox
 }) {
     if (editingmode) {
 
@@ -319,7 +360,7 @@ function NoteContent ({
                             <input
                                 type="checkbox"
                                 checked={block.completed}
-                                readOnly
+                                onChange={() => updateCheckbox(block._id)}
                             />
 
                             <span

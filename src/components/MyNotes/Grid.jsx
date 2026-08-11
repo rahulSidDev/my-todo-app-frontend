@@ -1,6 +1,6 @@
 import Card from './Card'
 
-export default function Grid ({notes, deleteNote}) {
+export default function Grid ({notes, deleteNote, updateCheckbox}) {
     if (notes.length === 0) {
         return (
             <div className="
@@ -27,7 +27,12 @@ export default function Grid ({notes, deleteNote}) {
             gap-6"
         >
             {notes.map((note) => (
-                <Card key={note._id} note={note} deleteNote={deleteNote}/>
+                <Card 
+                    key={note._id} 
+                    note={note} 
+                    deleteNote={deleteNote}
+                    updateCheckbox={updateCheckbox}
+                />
             ))}
         </div>
     )

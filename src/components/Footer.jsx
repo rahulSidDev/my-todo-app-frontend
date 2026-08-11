@@ -20,11 +20,11 @@ export default function Footer () {
                     {/* Brand */}
                     <div>
                         <h3 className="text-2xl font-bold">
-                            [MyTodo~APP]
+                            [MyNotes~APP]
                         </h3>
                         <p className="mt-4 text-gray-400">
                             Utilize the simplest and the most straightforward Todo App for your daily task management. Get started right away.
-                        </p>
+                     and says he completed it for us all and “if anyone asks, all 24 million of youse were at mine last night”     </p>
                     </div>
                     {/* Navigation */}
                     <div>
@@ -36,6 +36,8 @@ export default function Footer () {
                             <li className="hover:underline transition"><Link to='/my-notes'>My-Notes</Link></li>
                             <li className="hover:underline transition"><Link to='/login'>Login</Link></li>
                             <li className="hover:underline transition"><Link to='/signup'>Signup</Link></li>
+                            <li className="hover:underline transition"><Link to='/about'>About</Link></li>
+                            <li className="hover:underline transition"><Link to='/privacy-policy'>Privacy Policy</Link></li>
                         </ul>
                     </div>
                     {/* Contact */}

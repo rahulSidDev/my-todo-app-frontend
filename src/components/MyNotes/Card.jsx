@@ -1,22 +1,33 @@
 import { MdDelete } from "react-icons/md";
 import { GrUndo } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import {AuthContext} from '../../contexts/auth'
 
-function generatePreview(content) {
+function generatePreview(content, updateCheckbox, isTrashed, noteID) {
     return content.map(block => {
-
         if(block.type === "checklist"){
             return (
                 <div
                     key={block._id}
                     className="flex items-center gap-2"
                 >
-                    <input
-                        type="checkbox"
-                        checked={block.completed}
-                        readOnly
-                        className="w-4 h-4"
-                    />
+                    {!isTrashed?
+                        <input
+                            type="checkbox"
+                            checked={block.completed}
+                            className="w-4 h-4" 
+                            onChange={
+                                () => updateCheckbox(noteID, block._id)
+                            }
+                        /> :
+                        <input
+                            type="checkbox"
+                            checked={block.completed}
+                            className="w-4 h-4" 
+                            readOnly
+                        />
+                    }
 
                     <span
                         className={
@@ -41,21 +52,44 @@ function generatePreview(content) {
 
 }
 
-export default function Card ({note, deleteNote, restoreNote}) {
-    const preview = generatePreview(note.content);
+function getNoteColor(index, preference) {
+
+    if (preference === "pink") {
+        return "bg-pink-300";
+    }
+
+    if (preference === "yellow") {
+        return "bg-yellow-300";
+    }
+
+    if (preference === "alternate") {
+
+        return index % 2 === 0
+            ? "bg-pink-300"
+            : "bg-yellow-300";
+    }
+
+    return "bg-pink-300";
+}
+
+export default function Card ({note, deleteNote, restoreNote, updateCheckbox}) {
+    const {user} = useContext(AuthContext)
+    const noteColor = getNoteColor(note.order, user.colorPreference)
+    
+    const preview = generatePreview(note.content, updateCheckbox, note.isTrashed, note._id);
 
     return (
         <div
-            className="
+            className={`
                 h-64
                 w-full
-                bg-white
                 rounded-2xl
                 shadow
                 p-5
                 flex
                 flex-col
-            "
+                ${noteColor}
+            `}
         >
             <Link
                 to={`/note/${note._id}`}

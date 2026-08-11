@@ -37,3 +37,8 @@ export const noteMoveToTrash = (id) => axiosInstance.patch(
 export const noteRestore = (id) => axiosInstance.patch(
     `/note/restore/${id}`
 )
+
+export const noteCheckCheckbox = (id, data) => axiosInstance.patch(
+    `/note/checkbox/${id}`,
+    data
+)

@@ -16,6 +16,9 @@ import { useContext } from "react";
 
 import { AuthContext } from "./contexts/auth";
 import TrashBin from "./pages/TrashBin";
+import ForgotPassword from "./pages/ForgotPassword";
+import About from "./pages/About";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 
 export default function App() {
     const { user, loading } = useContext(AuthContext);
@@ -36,7 +39,10 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/trash-bin" element={<TrashBin />} />
                 <Route path="*" element={<NotFound />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             </Routes>
             <Footer />
         </div>
