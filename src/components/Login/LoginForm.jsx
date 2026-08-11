@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext } from "react";
-import { AuthContext } from "../contexts/auth";
-import { userLogin } from "../api/user";
+import { AuthContext } from "../../contexts/auth";
+import { userLogin } from "../../api/user";
 
 function LoginForm() {
     const { user, setUser } = useContext(AuthContext);
@@ -40,9 +40,9 @@ function LoginForm() {
             <div className="w-[90%] h-[85%]">
                 {/* Header Part */}
                 <div className="w-full h-[20%]">
-                    <h1 className="text-4xl font-bold text-blue-950 text-center">
+                    <p className="text-4xl font-bold text-blue-950 text-center">
                         Login
-                    </h1>
+                    </p>
                 </div>
 
                 <div className="w-full h-[80%]">
@@ -86,9 +86,9 @@ function LoginForm() {
                     <div className="w-full h-[20%] flex flex-col py-2 gap-2">
                         <div className="text-center text-sm">
                             <span>
-                                <a href="#" className="text-blue-500">
+                                <Link to="/forgot-password" className="text-blue-500">
                                     Forgot Password
-                                </a>
+                                </Link>
                             </span>
                         </div>
                         <div className="text-center text-sm">

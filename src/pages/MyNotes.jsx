@@ -6,7 +6,7 @@ import Grid from "../components/MyNotes/Grid"
 import Toolbar from "../components/MyNotes/Toolbar"
 import CreateNote from "../components/MyNotes/CreateNote"
 
-import { todoGetAll, noteMoveToTrash, todoCreate } from '../api/notes'
+import { todoGetAll, noteMoveToTrash, todoCreate, noteCheckCheckbox } from '../api/notes'
 
 export default function MyNotes() {
     const [notes, setNotes] = useState([])
@@ -58,6 +58,25 @@ export default function MyNotes() {
         }
     }
 
+    const updateCheckbox = async (noteID, contentID) => {
+        try {
+            let response = await noteCheckCheckbox(
+                noteID, 
+                {contentID: contentID}
+            )
+            response = response.data.data
+            setNotes(notes.map(item => {
+                if (item._id.toString() === response._id) {
+                    return response
+                }
+                return item
+            }))
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+    }
+
     return (
         <main className="pt-[55px] min-h-screen bg-slate-50">
             <div className="max-w-7xl mx-auto px-6 py-8">
@@ -68,7 +87,7 @@ export default function MyNotes() {
                     </h1>
                 </div>
                 <Toolbar onCreate={() => setShowCreateNote(true)}/>
-                <Grid notes={notes} deleteNote={deleteNote}/>
+                <Grid notes={notes} deleteNote={deleteNote} updateCheckbox={updateCheckbox}/>
             </div>
             {/* Modal */}
             {

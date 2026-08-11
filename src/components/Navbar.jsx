@@ -33,10 +33,13 @@ export default () => {
 		justify-between
 		items-center
 		">			
-			<p className="hover:underline transition duration-200 font-[900] text-2xl text-blue-950">[MyTodo~APP]</p>
+			<p className="hover:underline transition duration-200 font-[900] text-2xl text-blue-950">[MyNotes~APP]</p>
 			<ol className="flex gap-5 items-center text-xl">
 				<Link className="hover:underline transition duration-200" to="/">
 					<li>Home</li>
+				</Link>
+				<Link className="hover:underline transition duration-200" to="/about">
+					<li>About</li>
 				</Link>
 				{user ? (
 					<Link className="hover:underline transition duration-200" to="/my-notes">
