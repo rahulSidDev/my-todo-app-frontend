@@ -42,3 +42,13 @@ export const noteCheckCheckbox = (id, data) => axiosInstance.patch(
     `/note/checkbox/${id}`,
     data
 )
+
+export const noteSearch = (search) => axiosInstance.get(
+    '/note',
+    {params: {search}}
+)
+
+export const noteReorder = (data) => axiosInstance.patch(
+    '/note/reorder',
+    data
+)

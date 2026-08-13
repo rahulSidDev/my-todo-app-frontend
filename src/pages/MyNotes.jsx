@@ -6,10 +6,18 @@ import Grid from "../components/MyNotes/Grid"
 import Toolbar from "../components/MyNotes/Toolbar"
 import CreateNote from "../components/MyNotes/CreateNote"
 
-import { todoGetAll, noteMoveToTrash, todoCreate, noteCheckCheckbox } from '../api/notes'
+import { 
+    todoGetAll, 
+    noteMoveToTrash, 
+    todoCreate, 
+    noteCheckCheckbox, 
+    noteSearch
+} from '../api/notes'
 
 export default function MyNotes() {
     const [notes, setNotes] = useState([])
+    const [sort, setSort] = useState('');
+    const [filter, setFilter] = useState('');
     const [showCreateNote, setShowCreateNote] = useState(false)
 
     const navigate = useNavigate()
@@ -77,6 +85,62 @@ export default function MyNotes() {
         }
     }
 
+    const searchNotes = async (search) => {
+        try {
+            const response = await noteSearch(search)
+            setNotes(response.data.data)
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+    }
+
+    const sortNotes = (sortBy) => {
+        setSort(sortBy)
+        if (sortBy === 'newest') {
+            setNotes([...notes].sort((a, b) => {
+                return new Date(b.createdAt) - new Date(a.createdAt);
+            }))
+        }
+        else if (sortBy === 'oldest') {
+            setNotes([...notes].sort((a, b) => {
+                return new Date(a.createdAt) - new Date(b.createdAt);
+            }))
+        }
+        else if (sortBy === 'title-az') {
+            setNotes([...notes].sort((a, b) => {
+                return a.title.localeCompare(b.title);
+            }))
+        }
+        else if (sortBy === 'title-za') {
+            setNotes([...notes].sort((a, b) => {
+                return b.title.localeCompare(a.title);
+            }))
+        }
+    }
+
+    const filterNotes = notes.filter((note) => {
+        switch (filter) {
+            case "text":
+                return (
+                    note.content.length > 0 &&
+                    note.content.every(
+                        (block) => block.type === "text"
+                    )
+                );
+            case "checklist":
+                return (
+                    note.content.length > 0 &&
+                    note.content.every(
+                        (block) => block.type === "checklist"
+                    )
+                );
+            case "all":
+            default:
+                return true;
+        }
+    });
+
     return (
         <main className="pt-[55px] min-h-screen bg-slate-50">
             <div className="max-w-7xl mx-auto px-6 py-8">
@@ -86,8 +150,20 @@ export default function MyNotes() {
                         My Notes
                     </h1>
                 </div>
-                <Toolbar onCreate={() => setShowCreateNote(true)}/>
-                <Grid notes={notes} deleteNote={deleteNote} updateCheckbox={updateCheckbox}/>
+                <Toolbar
+                    onCreate={() => setShowCreateNote(true)} 
+                    searchNotes={searchNotes}
+                    sortNotes={sortNotes}
+                    sort={sort}
+                    filter={filter}
+                    setFilter={setFilter}
+                />
+                <Grid 
+                    notes={filterNotes} 
+                    deleteNote={deleteNote} 
+                    updateCheckbox={updateCheckbox}
+                    setNotes={setNotes}
+                />
             </div>
             {/* Modal */}
             {
