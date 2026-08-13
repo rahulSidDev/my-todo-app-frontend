@@ -2,6 +2,8 @@ import { MdDelete } from "react-icons/md";
 import { GrUndo } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import {AuthContext} from '../../contexts/auth'
 
 function generatePreview(content, updateCheckbox, isTrashed, noteID) {
@@ -73,6 +75,21 @@ function getNoteColor(index, preference) {
 }
 
 export default function Card ({note, deleteNote, restoreNote, updateCheckbox}) {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition
+    } = useSortable({
+        id: note._id
+    });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition
+    };
+    
     const {user} = useContext(AuthContext)
     const noteColor = getNoteColor(note.order, user.colorPreference)
     
@@ -90,6 +107,10 @@ export default function Card ({note, deleteNote, restoreNote, updateCheckbox}) {
                 flex-col
                 ${noteColor}
             `}
+            style={style}
+            ref={setNodeRef}
+            {...attributes}
+            {...listeners}
         >
             <Link
                 to={`/note/${note._id}`}

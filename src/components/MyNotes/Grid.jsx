@@ -1,6 +1,14 @@
 import Card from './Card'
+import {DndContext} from '@dnd-kit/core'
+import {SortableContext, arrayMove} from '@dnd-kit/sortable'
+import { noteReorder } from '../../api/notes';
 
-export default function Grid ({notes, deleteNote, updateCheckbox}) {
+export default function Grid ({
+    notes, 
+    deleteNote, 
+    updateCheckbox,
+    setNotes
+}) {
     if (notes.length === 0) {
         return (
             <div className="
@@ -17,6 +25,36 @@ export default function Grid ({notes, deleteNote, updateCheckbox}) {
         );
     }
 
+    const handleDragEnd = async ({active, over}) => {
+        if (!over || active.id === over.id) {
+            return;
+        }
+        const oldIndex = notes.findIndex(
+            note => note._id === active.id
+        );
+        const newIndex = notes.findIndex(
+            note => note._id === over.id
+        );
+        const newNotes = arrayMove(
+            notes,
+            oldIndex,
+            newIndex
+        );
+        setNotes(newNotes);
+        const reorderedNotes = newNotes.map(
+            (note, index) => ({
+                id: note._id,
+                order: index + 1
+            })
+        );
+        try {
+            await noteReorder({reorderedNotes})
+        }
+        catch (e) {
+            console.log(e.message)
+        }
+    }
+
     return (
         <div className="
             grid 
@@ -26,14 +64,18 @@ export default function Grid ({notes, deleteNote, updateCheckbox}) {
             xl:grid-cols-4 
             gap-6"
         >
-            {notes.map((note) => (
-                <Card 
-                    key={note._id} 
-                    note={note} 
-                    deleteNote={deleteNote}
-                    updateCheckbox={updateCheckbox}
-                />
-            ))}
+            <DndContext onDragEnd={handleDragEnd}>
+                <SortableContext items={notes.map(note => note._id)}>
+                    {notes.map((note) => (
+                        <Card 
+                            key={note._id} 
+                            note={note} 
+                            deleteNote={deleteNote}
+                            updateCheckbox={updateCheckbox}
+                        />
+                    ))}
+                </SortableContext>
+            </DndContext>
         </div>
     )
 }
