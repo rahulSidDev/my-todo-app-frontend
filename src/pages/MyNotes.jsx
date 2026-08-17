@@ -7,9 +7,9 @@ import Toolbar from "../components/MyNotes/Toolbar"
 import CreateNote from "../components/MyNotes/CreateNote"
 
 import { 
-    todoGetAll, 
+    noteGetAll, 
     noteMoveToTrash, 
-    todoCreate, 
+    noteCreate, 
     noteCheckCheckbox, 
     noteSearch
 } from '../api/notes'
@@ -33,7 +33,7 @@ export default function MyNotes() {
 
     const fetchAllNotes = async () => {
         try {
-            let allTodos = await todoGetAll()
+            let allTodos = await noteGetAll()
             allTodos = allTodos.data.data
             setNotes(allTodos)
         }
@@ -54,7 +54,7 @@ export default function MyNotes() {
 
     const createNote = async (newNote) => {
         try {
-            const response = await todoCreate(newNote)
+            const response = await noteCreate(newNote)
             setNotes(prev => [
                 ...prev,
                 response.data.data
