@@ -1,9 +1,14 @@
 import { useContext, useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { noteMoveToTrash, todoGetOne, todoUpdate, noteCheckCheckbox } from "../api/notes"
 import { MdDelete } from "react-icons/md";
 import { LuPencil } from "react-icons/lu";
 import { AuthContext } from "../contexts/auth";
+import { 
+    noteMoveToTrash, 
+    noteGetOne, 
+    noteUpdate, 
+    noteCheckCheckbox 
+} from "../api/notes"
 
 function getSingleNoteColor(
     preference,
@@ -43,7 +48,7 @@ export default function Note () {
     }, [])
 
     const fetchNote = async () => {
-        const response = await todoGetOne(id)
+        const response = await noteGetOne(id)
         setNote(response.data.data)
         setEditedNote({
             title: response.data.data.title,
@@ -80,7 +85,7 @@ export default function Note () {
 
     const handleSave = async () => {
         try {
-            const response = await todoUpdate(
+            const response = await noteUpdate(
                 note._id,
                 {
                     title: editedNote.title,

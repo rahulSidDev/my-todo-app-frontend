@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import { AuthContext } from "../../contexts/auth"
-import { userUpdate } from "../../api/user"
+import { userUpdatePreferences } from "../../api/user"
 
 export default function Details() {
     const {user, setUser} = useContext(AuthContext)
@@ -13,7 +13,7 @@ export default function Details() {
     const handleSubmit = async (e) => {
         try {
             e.preventDefault()
-            const res = await userUpdate(details)
+            const res = await userUpdatePreferences(details)
             setUser(res.data.data)
         }
         catch (error) {

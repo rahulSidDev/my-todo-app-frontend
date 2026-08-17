@@ -1,8 +1,13 @@
 import { useContext, useEffect, useState } from "react"
-import { todoDeleteOne, noteGetTrashed, noteRestore, todoDeleteAll } from "../api/notes"
 import { AuthContext } from "../contexts/auth"
 import { useNavigate } from "react-router-dom"
 import Grid from "../components/TrashBin/Grid"
+import { 
+    noteDeleteOne, 
+    noteGetTrashed, 
+    noteRestore, 
+    noteDeleteAll 
+} from "../api/notes"
 
 export default function TrashBin () {
     const [notes, setNotes] = useState([])
@@ -30,7 +35,7 @@ export default function TrashBin () {
 
     const deleteNote = async (id) => {
         try {
-            await todoDeleteOne(id)
+            await noteDeleteOne(id)
             setNotes(notes.filter(note => note._id !== id))
         }
         catch (e) {
@@ -40,7 +45,7 @@ export default function TrashBin () {
 
     const deleteAllNotes = async () => {
         try {
-            const res = await todoDeleteAll()
+            const res = await noteDeleteAll()
             setNotes([])
             alert(res.data.message)
         }
