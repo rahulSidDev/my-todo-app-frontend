@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { ImCross } from "react-icons/im";
+import { TiDelete } from "react-icons/ti";
 
 export default function CreateNote ({onClose, createNote}) {
     const [title, setTitle] = useState("")
     const [blocks, setBlocks] = useState([])
     
     const addTextBlock = () => {
-        setBlocks([...blocks, {id: Date.now(), type: 'text', content: ''}])
+        setBlocks([
+            ...blocks, 
+            {id: Date.now(), type: 'text', content: ''}
+        ])
     }
 
     const addChecklistBlock = () => {
@@ -64,21 +68,21 @@ export default function CreateNote ({onClose, createNote}) {
             items-center
             justify-center
             z-50
-            px-4
+            px-5
         ">
             <div onClick={(e) => e.stopPropagation()} className="
                 bg-white
-                rounded-2xl
+                rounded-md
                 shadow-xl
                 w-full
                 max-w-3xl
                 max-h-[90vh]
                 overflow-y-auto
-                p-6
+                p-5
             ">
                 {/* Header */}
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold">
+                    <h2 className="text-2xl font-bold text-blue-950">
                         Create Note
                     </h2>
                     <button
@@ -94,22 +98,20 @@ export default function CreateNote ({onClose, createNote}) {
                 {/* Form */}
                 <form onSubmit={handleSubmit}>
                     {/* Title */}
-                    <input
+                    <input className="
+                        w-full
+                        border
+                        border-gray-300
+                        rounded-md
+                        px-2
+                        py-2"
                         id="title"
                         type="text"
                         value={title}
                         onChange={(e) =>
                             setTitle(e.target.value)
                         }
-                        placeholder="Note title..."
-                        className="
-                            w-full
-                            border
-                            border-gray-300
-                            rounded-xl
-                            px-4
-                            py-3
-                            mb-6"
+                        placeholder="Enter Note Title"
                         required
                     />
                     {/* Blocks */}
@@ -117,146 +119,145 @@ export default function CreateNote ({onClose, createNote}) {
                         flex
                         flex-col
                         gap-4
-                    ">
+                        mt-3"
+                    >
                         {blocks.map((block) => (
-                            <div
-                                key={block.id}
-                                className="
-                                    border
-                                    border-gray-200
-                                    rounded-xl
-                                    p-4"
-                            >
-                                {/* text block */}
-                                {block.type === 'text' && (
-                                    <textarea 
+                        <div className="flex items-center gap-3"
+                            key={block.id}
+                        >
+                            {/* Text block */}
+                            {block.type === "text" && (
+                                <textarea
+                                    value={block.content}
+                                    onChange={(e) =>
+                                        updateBlockContent(
+                                            block.id,
+                                            e.target.value
+                                        )
+                                    }
+                                    placeholder="Write text..."
+                                    rows={4}
+                                    className="
+                                        flex-1
+                                        w-full
+                                        resize-none
+                                        border
+                                        border-gray-300
+                                        rounded-md
+                                        p-3
+                                        outline-none
+                                        focus:border-blue-950
+                                    "
+                                />
+                            )}
+
+                            {/* Checklist block */}
+                            {block.type === "checklist" && (
+                                <div className="
+                                    flex
+                                    flex-1
+                                    items-center
+                                    gap-3
+                                ">
+                                    <input
+                                        type="checkbox"
+                                        checked={block.completed}
+                                        onChange={() =>
+                                            toggleChecklist(block.id)
+                                        }
+                                        className="h-5 w-5"
+                                    />
+
+                                    <input
+                                        type="text"
                                         value={block.content}
-                                        onChange={(e) => 
+                                        onChange={(e) =>
                                             updateBlockContent(
                                                 block.id,
                                                 e.target.value
                                             )
                                         }
-                                        placeholder="Write text..."
-                                        rows={4}
+                                        placeholder="Checklist item..."
                                         className="
-                                            w-full
-                                            resize-none
+                                            flex-1
                                             border
                                             border-gray-300
-                                            rounded-lg
-                                            p-3"
-                                    />
-                                )}
-                                {/* checklist block */}
-                                {block.type === 'checklist' && (
-                                    <div className="
-                                        flex
-                                        items-center
-                                        gap-3
-                                    ">
-                                        <input
-                                            type="checkbox"
-                                            checked={block.completed}
-                                            onChange={() =>
-                                                toggleChecklist(block.id)
-                                            }
-                                        />
-                                        <input
-                                            type="text"
-                                            value={block.content}
-                                            onChange={(e) =>
-                                                updateBlockContent(
-                                                    block.id,
-                                                    e.target.value
-                                                )
-                                            }
-                                            placeholder="Checklist item..."
-                                            className="
-                                                flex-1
-                                                border
-                                                border-gray-300
-                                                rounded-lg
-                                                px-3
-                                                py-2
-                                            "
-                                        />
-                                    </div>
-                                )}
-                                <div className="
-                                    flex
-                                    justify-end
-                                    mt-3
-                                ">
-                                    <button
-                                        type="button"
-                                        onClick={() => deleteBlock(block.id)}
-                                        className="
-                                            text-red-500
-                                            text-sm
-                                            hover:text-red-700
+                                            rounded-md
+                                            px-3
+                                            py-2
+                                            outline-none
+                                            focus:border-blue-950
                                         "
-                                    >
-                                        Delete Block
-                                    </button>
+                                    />
                                 </div>
-                            </div>
+                            )}
+
+                            {/* Delete button */}
+                            <button
+                                type="button"
+                                onClick={() => deleteBlock(block.id)}
+                                className="
+                                    shrink-0
+                                    p-2
+                                    text-red-400
+                                    hover:text-red-500
+                                    transition
+                                "
+                                aria-label="Delete block"
+                                title="Delete block"
+                            >
+                                <TiDelete size={30} />
+                            </button>
+                        </div>
                         ))}
                     </div>
                     <div className="flex gap-3 mt-6">
-                        <button
+                        <button className="
+                            px-2
+                            py-2
+                            rounded-md
+                            bg-yellow-300
+                            hover:bg-yellow-400"
                             type="button"
                             onClick={addTextBlock}
-                            className="
-                                px-4
-                                py-2
-                                rounded-xl
-                                bg-yellow-300
-                                hover:bg-yellow-400
-                            "
                         >
                             + Add Text
                         </button>
-                        <button
+                        <button className="
+                            px-2
+                            py-2
+                            rounded-md
+                            bg-pink-300
+                            hover:bg-pink-400"
                             type="button"
                             onClick={addChecklistBlock}
-                            className="
-                                px-4
-                                py-2
-                                rounded-xl
-                                bg-pink-300
-                                hover:bg-pink-400
-                            "
                         >
                             + Add Checklist
                         </button>
                     </div>
                     {/* Footer Buttons */}
                     <div className="flex justify-end gap-3 mt-8">
-                        <button
+                        <button className="
+                            px-3
+                            py-3
+                            rounded-md
+                            bg-gray-100
+                            hover:bg-gray-200
+                            transition"
                             type="button"
                             onClick={() => onClose()}
-                            className="
-                                px-5
-                                py-3
-                                rounded-xl
-                                border
-                                border-gray-300
-                                hover:bg-gray-100
-                                transition"
                         >
                             Cancel
                         </button>
-                        <button
+                        <button className="
+                            px-3
+                            py-3
+                            rounded-md
+                            bg-blue-950
+                            text-white
+                            hover:bg-blue-900
+                            transition"
                             type="submit"
-                            className="
-                                px-5
-                                py-3
-                                rounded-xl
-                                bg-pink-500
-                                text-white
-                                hover:bg-pink-600
-                                transition"
                         >
                             Create Note
                         </button>

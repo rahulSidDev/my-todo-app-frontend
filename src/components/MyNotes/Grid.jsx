@@ -9,22 +9,6 @@ export default function Grid ({
     updateCheckbox,
     setNotes
 }) {
-    if (notes.length === 0) {
-        return (
-            <div className="
-                text-center
-                py-20
-            ">
-                <h3 className="text-2xl font-semibold">
-                    No notes yet
-                </h3>
-                <p className="text-gray-500 mt-2">
-                    Create your first note to get started.
-                </p>
-            </div>
-        );
-    }
-
     const handleDragEnd = async ({active, over}) => {
         if (!over || active.id === over.id) {
             return;
@@ -57,25 +41,57 @@ export default function Grid ({
 
     return (
         <div className="
-            grid 
-            grid-cols-1 
-            sm:grid-cols-2 
-            lg:grid-cols-3 
-            xl:grid-cols-4 
-            gap-6"
+            mt-5
+            border
+            border-slate-300
+            rounded-md
+            p-5"
         >
-            <DndContext onDragEnd={handleDragEnd}>
-                <SortableContext items={notes.map(note => note._id)}>
-                    {notes.map((note) => (
-                        <Card 
-                            key={note._id} 
-                            note={note} 
-                            deleteNote={deleteNote}
-                            updateCheckbox={updateCheckbox}
-                        />
-                    ))}
-                </SortableContext>
-            </DndContext>
+            {notes.length === 0 ? 
+            <div className="
+                min-h-[300px]
+                flex
+                flex-col
+                items-center
+                justify-center
+                text-center"
+            >
+                <p className="
+                    text-2xl
+                    font-semibold
+                    text-blue-950"
+                >
+                    No Notes Yet
+                </p>
+                <p className="
+                    mt-2
+                    text-gray-600"
+                >
+                    Create your first note to get started.
+                </p>
+            </div> : 
+            <div className="
+                grid
+                grid-cols-1
+                sm:grid-cols-2
+                lg:grid-cols-3
+                xl:grid-cols-4
+                gap-5"
+            >
+                <DndContext onDragEnd={handleDragEnd}>
+                    <SortableContext items={notes.map(note => note._id)}>
+                        {notes.map((note) => (
+                            <Card 
+                                key={note._id} 
+                                note={note} 
+                                deleteNote={deleteNote}
+                                updateCheckbox={updateCheckbox}
+                            />
+                        ))}
+                    </SortableContext>
+                </DndContext>
+            </div>
+            }
         </div>
     )
 }

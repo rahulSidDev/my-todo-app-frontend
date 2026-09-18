@@ -13,7 +13,7 @@ export default function DeleteAccount() {
             e.preventDefault()
             const res = await userDelete(password)
             alert(res.data.message)
-            navigate('/')
+            navigate('/', {replace: true})
             setUser(null)
         }
         catch (error) {

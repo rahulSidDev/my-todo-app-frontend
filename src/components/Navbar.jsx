@@ -1,75 +1,190 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef, useEffect } from "react";
 import { AuthContext } from "../contexts/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { userLogout } from "../api/user";
 
-export default () => {
-	const { user, setUser } = useContext(AuthContext);
+import { GiHamburgerMenu } from "react-icons/gi";
+import { ImCross } from "react-icons/im";
 
+export default () => {
+	const [menuOpen, setMenuOpen] = useState(false);
+	const { user, setUser } = useContext(AuthContext);
+	const navbarRef = useRef(null)
 	const navigate = useNavigate();
-	const logoutHandler = async () => {
+
+	const handleLogout = async () => {
 		try {
-			setUser(null);
 			const res = await userLogout({});
-			navigate("/login");
+			setUser(null);
+			navigate("/login", {replace: true});
 		} catch (error) {
 			console.log(error.message);
 		}
 	};
 
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				navbarRef.current &&
+				!navbarRef.current.contains(event.target)
+			) {
+				setMenuOpen(false);
+			}
+		};
+		document.addEventListener(
+			"mousedown",
+			handleClickOutside
+		);
+		return () => {
+			document.removeEventListener(
+				"mousedown",
+				handleClickOutside
+			);
+		};
+	}, []);
+
+	const navLinks = [
+		{
+			name: 'About',
+			to: '/about',
+			type: 'PUBLIC',
+			onClick: () => {
+				setMenuOpen(false)
+			}
+		},
+		{
+			name: 'Login',
+			to: '/login',
+			type: 'GUEST',
+			onClick: () => {
+				setMenuOpen(false)
+			}
+		},
+		{
+			name: 'Signup',
+			to: '/signup',
+			type: 'GUEST',
+			onClick: () => {
+				setMenuOpen(false)
+			}
+		},
+		{
+			name: 'My-Notes',
+			to: '/my-notes',
+			type: 'PRIVATE',
+			onClick: () => {
+				setMenuOpen(false)
+			}
+		},
+		{
+			name: 'Trash-Bin',
+			to: '/trash-bin',
+			type: 'PRIVATE',
+			onClick: () => {
+				setMenuOpen(false)
+			}
+		},
+		{
+			name: 'Profile',
+			to: '/profile',
+			type: 'PRIVATE',
+			onClick: () => {
+				setMenuOpen(false)
+			}
+		},
+		{
+			name: 'Logout',
+			to: '',
+			onClick: handleLogout,
+			type: 'PRIVATE',
+		},
+	]
+
 	return (
 		<nav className="
+		@container
 		fixed
 		top-0
 		left-0
+		max-w-7xl
 		w-full
 		h-[55px]
 		px-8
-		bg-white
-		border-b
-		border-gray-200
+		bg-gray-100
+		border-b-2
+		border-gray-300
 		z-50
 		flex
 		justify-between
 		items-center
-		">			
-			<p className="hover:underline transition duration-200 font-[900] text-2xl text-blue-950">[MyNotes~APP]</p>
-			<ol className="flex gap-5 items-center text-xl">
-				<Link className="hover:underline transition duration-200" to="/">
-					<li>Home</li>
-				</Link>
-				<Link className="hover:underline transition duration-200" to="/about">
-					<li>About</li>
-				</Link>
-				{user ? (
-					<Link className="hover:underline transition duration-200" to="/my-notes">
-						<li>My-Notes</li>
-					</Link>
-				) : (
-					""
-				)}
-				{user ? (
-					<Link className="hover:underline transition duration-200" to="/trash-bin">
-						<li>Trash-Bin</li>
-					</Link>
-				) : (
-					""
-				)}
-				{user ? (
-					<Link className="hover:underline transition duration-200" to="/profile">
-						<li>Profile</li>
-					</Link>
-				) : (
-					""
-				)}
-				{user ? (
-					<button className="hover:underline transition duration-200" onClick={logoutHandler}>Logout</button>
-				) : (
-					<Link className="hover:underline transition duration-200" to="/login">
-						<li>Login</li>
-					</Link>
-				)}
+		font-medium
+		text-blue-950"
+		ref={navbarRef}
+		>			
+			<Link className="
+			hover:underline
+			hover:decoration-2
+			transition
+			font-[900] 
+			text-2xl"
+			to="/"
+			>
+				[MyNotes~APP]
+			</Link>
+			<ol className={`
+			${menuOpen ? "flex" : "hidden"}
+			bg-gray-100
+			border-b-2
+			border-gray-300
+			@min-[800px]:flex
+			@min-[800px]:border-0
+			flex-col
+			@min-[800px]:flex-row
+			absolute
+			@min-[800px]:static
+			top-[56px]
+			@min-[800px]:top-auto
+			left-0
+			@min-[800px]:left-auto
+			w-full
+			@min-[800px]:w-auto
+			@min-[800px]:bg-transparent
+			p-4
+			@min-[800px]:p-0
+			gap-4
+			@min-[800px]:gap-8
+			text-xl
+			`}>
+				{
+					navLinks
+					.filter(link => link.type === 'PUBLIC' ||
+						(user && link.type === 'PRIVATE') || 
+						(!user && link.type === 'GUEST')
+					)
+					.map(link => (
+						<li key={link.to}>
+							<Link className={`
+							hover:underline 
+							hover:decoration-2
+							transition`}
+							to={link.to}
+							onClick={link.onClick}>
+								{link.name}
+							</Link>
+						</li>
+					))
+				}
 			</ol>
+			<button
+			onClick={() => setMenuOpen(!menuOpen)}
+			className="@min-[800px]:hidden ml-auto p-2"
+			>
+				{menuOpen ? (
+					<ImCross size={20} />
+				) : (
+					<GiHamburgerMenu size={25} />
+				)}
+			</button>
 		</nav>
 	);
 };

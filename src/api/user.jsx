@@ -20,7 +20,7 @@ export const userForgotPassword = (data) => axiosInstance.post(
     "/user/forgot-password", 
     data
 );
-export const userForgotPassOtp = (data) => axiosInstance.post(
+export const userForgotPassVerify = (data) => axiosInstance.post(
     "/user/forgot-password/verify", 
     data
 );

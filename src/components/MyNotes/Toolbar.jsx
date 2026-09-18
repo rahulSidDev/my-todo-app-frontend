@@ -1,81 +1,98 @@
 import { useState } from "react";
 
 export default function Toolbar ({
-    onCreate, 
     searchNotes, 
     sortNotes, 
     sort,
     filter,
     setFilter
 }) {
+    const [selected, setSelected] = useState('')
+
     return (
         <div className="
-            flex
-            flex-col
-            md:flex-row
-            gap-4
-            justify-between
-            items-center
-            mb-8
+            mt-5
+            rounded-md
+            border
+            border-slate-200
+            bg-white
+            p-2
+            shadow-sm
         ">
-            <input
-                type="text"
-                placeholder="Search notes..."
-                onChange={(e) => searchNotes(e.target.value)}
-                className="
-                w-full
-                md:w-80
-                px-4
-                py-3
-                rounded-xl
-                border
-                border-gray-300
-            "/>
-            <div className="flex gap-3">
-                <label className="py-3" htmlFor="filter">Filter By:</label>
-                <select
-                    id="filter"
-                    name="filter"
-                    value={filter}
-                    onChange={(e) => setFilter(e.target.value)}
-                    className="border rounded-xl px-3 py-2"
-                >
-                    <option value="">--Select--</option>
-                    <option value="all">All Notes</option>
-                    <option value="text">Only Text</option>
-                    <option value="checklist">Only Checklist</option>
-                </select>
-                <label className="py-3" htmlFor="sort">Sort By:</label>
-                <select
-                    id="sort"
-                    name="sort"
-                    value={sort}
-                    className="border rounded-xl px-3 py-2"
+            <div className="
+                flex
+                flex-col
+                gap-3
+                sm:flex-row
+                sm:items-center
+            ">
+                {/* Search */}
+                <div className="relative w-full sm:flex-1">
+                    <input
+                        type="text"
+                        placeholder="Search notes..."
+                        onChange={(e) => searchNotes(e.target.value)}
+                        className="
+                            w-full
+                            rounded-md
+                            border
+                            border-slate-300
+                            bg-slate-50
+                            px-2
+                            py-2
+                            pl-2
+                            text-gray-800
+                            outline-none
+                            transition
+                            focus:bg-white
+                        "
+                    />
+                </div>
+
+                {/* Sort */}
+                <select  className="
+                    w-full
+                    rounded-md
+                    border
+                    border-slate-300
+                    bg-slate-50
+                    px-2
+                    py-2
+                    text-gray-700
+                    outline-none
+                    sm:w-44"
                     onChange={(e) => sortNotes(e.target.value)}
+                    value={selected}
                 >
-                    <option value="">--Select--</option>
-                    <option value="newest">
-                        Newest
-                    </option>
-                    <option value="oldest">
-                        Oldest
-                    </option>
-                    <option value="title-az">
-                        Title A-Z
-                    </option>
-                    <option value="title-za">
-                        Title Z-A
-                    </option>
+                    <option value="">--Sort By--</option>
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="title-az">Title A–Z</option>
+                    <option value="title-za">Title Z–A</option>
                 </select>
-                <button onClick={onCreate} className="
-                    px-5
-                    py-3
-                    rounded-xl
-                    bg-pink-500
-                    text-white
-                ">
-                    + New Note
-                </button>
+
+                {/* Filter */}
+                <select 
+                    className="
+                    w-full
+                    rounded-md
+                    border
+                    border-slate-300
+                    bg-slate-50
+                    px-2
+                    py-2
+                    text-gray-700
+                    outline-none
+                    sm:w-44"
+                    onChange={(e) => setFilter(e.target.value)}
+                    value={selected}
+                >
+                    <option value="">--Filter By--</option>
+                    <option value="all">All</option>
+                    <option value="text">Text Only</option>
+                    <option value="checklist">Checklists Only</option>
+                </select>
+
             </div>
         </div>
     )

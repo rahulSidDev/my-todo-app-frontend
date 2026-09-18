@@ -1,6 +1,7 @@
 import { MdDelete } from "react-icons/md";
 import { GrUndo } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import { LuGripVertical } from "react-icons/lu";
 import { useContext } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -55,30 +56,34 @@ function generatePreview(content, updateCheckbox, isTrashed, noteID) {
 }
 
 function getNoteColor(index, preference) {
-
     if (preference === "pink") {
-        return "bg-pink-300";
+        return "bg-pink-200";
     }
 
     if (preference === "yellow") {
-        return "bg-yellow-300";
+        return "bg-yellow-200";
     }
 
     if (preference === "alternate") {
-
         return index % 2 === 0
-            ? "bg-pink-300"
-            : "bg-yellow-300";
+            ? "bg-pink-200"
+            : "bg-yellow-200";
     }
 
-    return "bg-pink-300";
+    return "bg-pink-200";
 }
 
-export default function Card ({note, deleteNote, restoreNote, updateCheckbox}) {
+export default function Card ({
+    note, 
+    deleteNote, 
+    restoreNote, 
+    updateCheckbox
+}) {
     const {
         attributes,
         listeners,
         setNodeRef,
+        setActivatorNodeRef,
         transform,
         transition
     } = useSortable({
@@ -100,36 +105,62 @@ export default function Card ({note, deleteNote, restoreNote, updateCheckbox}) {
             className={`
                 h-64
                 w-full
-                rounded-2xl
+                rounded-md
                 shadow
                 p-5
                 flex
                 flex-col
+                text-blue-950
                 ${noteColor}
             `}
             style={style}
             ref={setNodeRef}
-            {...attributes}
-            {...listeners}
         >
-            <Link
-                to={`/note/${note._id}`}
-                className="
+            <div className="
+                flex
+                items-center
+                justify-between
+                gap-3
+                mb-4"
+            >
+                <Link
+                    to={`/note/${note._id}`}
+                    className="
                     text-xl
                     font-bold
-                    mb-4
+                    truncate
+                    leading-tight
                     hover:underline
-                "
-            >
-                {note.title}
-            </Link>
-            <div
-                className="
-                    text-gray-600
-                    overflow-hidden
-                    line-clamp-5
-                    whitespace-pre-wrap
-                "
+                    hover:decoration-2
+                    hover:underline-offset-2"
+                >
+                    {note.title}
+                </Link>
+                {!note.isTrashed ?
+                <button
+                    ref={setActivatorNodeRef}
+                    {...attributes}
+                    {...listeners}
+                    type="button"
+                    className="
+                    shrink-0
+                    flex
+                    items-center
+                    justify-center
+                    text-gray-400
+                    hover:text-gray-600
+                    cursor-grab
+                    active:cursor-grabbing"
+                    aria-label="Drag note"
+                >
+                    <LuGripVertical size={20} />
+                </button>
+                : ''}
+            </div>
+            <div className="
+                overflow-hidden
+                line-clamp-5
+                whitespace-pre-wrap"
             >
                 {preview}
             </div>
@@ -143,14 +174,8 @@ export default function Card ({note, deleteNote, restoreNote, updateCheckbox}) {
                     pt-4
                 "
             >
-
                 {/* Created date */}
-                <span
-                    className="
-                        text-sm
-                        text-gray-400
-                    "
-                >
+                <span className="text-sm text-gray-500">
                     {new Date(note.createdAt).toLocaleDateString()}
                 </span>
 
@@ -181,7 +206,6 @@ export default function Card ({note, deleteNote, restoreNote, updateCheckbox}) {
                         <MdDelete size={25} />
                     </button>
                 </span>
-
             </div>
         </div>
     )

@@ -3,22 +3,20 @@ import { useContext } from "react";
 
 import { AuthContext } from "../contexts/auth";
 
-import HeroBanner from "../components/HeroBanner";
-import Features from "../components/Features";
-import HowItWorks from "../components/HowItWorks";
-import TechStack from "../components/TechStack";
+import HeroBanner from "../components/Home/HeroBanner";
+import Features from "../components/Home/Features";
+import HowItWorks from "../components/Home/HowItWorks";
+import TechStack from "../components/Home/TechStack";
 
-function Home() {
+export default function Home() {
     const { user } = useContext(AuthContext);
 
     return (
-        <>
+        <div className="max-w-7xl w-full pt-[55px]">
             <HeroBanner />
             <Features />
             <HowItWorks />
             <TechStack />
-        </>
+        </div>
     );
 }
-
-export default Home;
