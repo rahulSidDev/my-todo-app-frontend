@@ -25,7 +25,7 @@ export default function MyNotes() {
 
     useEffect(() => {
         if (!user) {
-            navigate('/login')
+            navigate('/login', {replace: true})
         } else {
             fetchAllNotes()
         }
@@ -135,31 +135,68 @@ export default function MyNotes() {
                         (block) => block.type === "checklist"
                     )
                 );
-            case "all":
+            case "all": return true
             default:
                 return true;
         }
     });
 
     return (
-        <main className="pt-[55px] min-h-screen bg-slate-50">
-            <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="
+            pt-[55px] 
+            min-h-screen 
+            bg-slate-200 
+            px-4 
+            sm:px-6"
+        >
+            <div className="
+                max-w-7xl 
+                mx-auto 
+                px-5 
+                py-5"
+            >
                 {/* Header */}
-                <div className="mb-8">
-                    <h1 className="text-4xl font-bold">
-                        My Notes
-                    </h1>
+                <div className="
+                    flex
+                    flex-col
+                    sm:flex-row
+                    sm:items-center
+                    sm:justify-between
+                    gap-6"
+                >
+                    <div>
+                        <h1 className="
+                        text-3xl
+                        sm:text-4xl
+                        font-bold
+                        tracking-tight
+                        text-blue-950">
+                            My Notes
+                        </h1>
+                        <p className="mt-2 text-gray-600">
+                            All of your notes in one place.
+                        </p>
+                    </div>
+                    <button className="
+                        px-6
+                        py-4
+                        rounded-md
+                        bg-blue-950
+                        hover:bg-blue-900
+                        transition
+                        text-white"
+                        onClick={() => setShowCreateNote(true)}
+                    >
+                        + New Note
+                    </button>
                 </div>
-                <Toolbar
-                    onCreate={() => setShowCreateNote(true)} 
-                    searchNotes={searchNotes}
+                <Toolbar searchNotes={searchNotes}
                     sortNotes={sortNotes}
                     sort={sort}
                     filter={filter}
                     setFilter={setFilter}
                 />
-                <Grid 
-                    notes={filterNotes} 
+                <Grid notes={filterNotes} 
                     deleteNote={deleteNote} 
                     updateCheckbox={updateCheckbox}
                     setNotes={setNotes}
@@ -171,6 +208,6 @@ export default function MyNotes() {
                     <CreateNote createNote={createNote} onClose={() => setShowCreateNote(false)}/>
                 )
             }
-        </main>
+        </div>
     )
 }

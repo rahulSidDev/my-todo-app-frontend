@@ -16,7 +16,7 @@ export default function TrashBin () {
 
     useEffect(() => {
         if (!user) {
-            navigate('/login')
+            navigate('/login', {replace: true})
         } else {
             fetchAllNotes()
         }

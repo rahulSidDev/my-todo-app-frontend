@@ -19,7 +19,7 @@ export default function ChangePass() {
             const res = await userChangePassword(password)
             setUser(null)
             alert(res.data.message)
-            navigate('/login')
+            navigate('/login', {replace: true})
         }
         catch (error) {
             console.log(error.message)

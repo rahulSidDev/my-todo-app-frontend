@@ -12,7 +12,7 @@ export default function () {
 
     useEffect(() => {
         if (!user) {
-            navigate('/login')
+            navigate('/login', {replace: true})
         }
     }, [user])
 
