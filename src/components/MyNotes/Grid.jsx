@@ -1,6 +1,11 @@
 import Card from './Card'
 import {DndContext} from '@dnd-kit/core'
-import {SortableContext, arrayMove} from '@dnd-kit/sortable'
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import {
+    SortableContext, 
+    arrayMove, 
+    rectSortingStrategy
+} from '@dnd-kit/sortable'
 import { noteReorder } from '../../api/notes';
 
 export default function Grid ({
@@ -78,12 +83,14 @@ export default function Grid ({
                 xl:grid-cols-4
                 gap-5"
             >
-                <DndContext onDragEnd={handleDragEnd}>
-                    <SortableContext items={notes.map(note => note._id)}>
+                <DndContext 
+                    onDragEnd={handleDragEnd}
+                >
+                    <SortableContext items={notes.map(note => note._id)}
+                        strategy={rectSortingStrategy}>
                         {notes.map((note) => (
-                            <Card 
-                                key={note._id} 
-                                note={note} 
+                            <Card key={note._id}
+                                note={note}
                                 deleteNote={deleteNote}
                                 updateCheckbox={updateCheckbox}
                             />

@@ -143,6 +143,7 @@ export default function MyNotes() {
 
     return (
         <div className="
+            overflow-x-hidden
             pt-[55px] 
             min-h-screen 
             bg-slate-200 
