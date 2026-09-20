@@ -17,15 +17,15 @@ export default function Toolbar ({
             border-slate-200
             bg-white
             p-2
-            shadow-sm
-        ">
+            shadow-sm"
+        >
             <div className="
                 flex
                 flex-col
                 gap-3
                 sm:flex-row
-                sm:items-center
-            ">
+                sm:items-center"
+            >
                 {/* Search */}
                 <div className="relative w-full sm:flex-1">
                     <input
@@ -48,7 +48,6 @@ export default function Toolbar ({
                         "
                     />
                 </div>
-
                 {/* Sort */}
                 <select  className="
                     w-full
@@ -62,7 +61,7 @@ export default function Toolbar ({
                     outline-none
                     sm:w-44"
                     onChange={(e) => sortNotes(e.target.value)}
-                    value={selected}
+                    value={sort}
                 >
                     <option value="">--Sort By--</option>
                     <option value="newest">Newest</option>
@@ -70,7 +69,6 @@ export default function Toolbar ({
                     <option value="title-az">Title A–Z</option>
                     <option value="title-za">Title Z–A</option>
                 </select>
-
                 {/* Filter */}
                 <select 
                     className="
@@ -85,14 +83,13 @@ export default function Toolbar ({
                     outline-none
                     sm:w-44"
                     onChange={(e) => setFilter(e.target.value)}
-                    value={selected}
+                    value={filter}
                 >
                     <option value="">--Filter By--</option>
                     <option value="all">All</option>
                     <option value="text">Text Only</option>
                     <option value="checklist">Checklists Only</option>
                 </select>
-
             </div>
         </div>
     )

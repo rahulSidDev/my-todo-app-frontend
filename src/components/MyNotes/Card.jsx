@@ -31,7 +31,6 @@ function generatePreview(content, updateCheckbox, isTrashed, noteID) {
                             readOnly
                         />
                     }
-
                     <span
                         className={
                             block.completed
@@ -147,6 +146,7 @@ export default function Card ({
                     flex
                     items-center
                     justify-center
+                    touch-none
                     text-gray-400
                     hover:text-gray-600
                     cursor-grab
