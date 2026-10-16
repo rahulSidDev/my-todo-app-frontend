@@ -115,9 +115,17 @@ export default function SignupForm({
                 placeholder="Re-enter your password"
                 required
             />
-            {formError && (
-                <p className="mt-2 text-sm text-red-600">
-                    {formError}
+            {formError.text && (
+                <p className={`
+                    mt-2
+                    text-sm
+                    ${
+                        !formError.failure ? 
+                        'text-green-600' : 
+                        'text-red-600'
+                    }
+                `}>
+                    {formError.text}
                 </p>
             )}
             {/* Signup button */}
