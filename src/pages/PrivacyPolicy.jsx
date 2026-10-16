@@ -2,30 +2,34 @@ export default function PrivacyPolicy () {
     return (
         <main className="
             min-h-screen
-            bg-slate-50
+            bg-slate-200
             pt-[55px]
-        ">
+            px-4
+            sm:px-6
+            overflow-x-hidden
+            text-blue-950"
+        >
             <div className="
-                max-w-6xl
+                max-w-7xl
                 mx-auto
-                px-6
-                py-12
-            ">
+                px-5
+                py-5"
+            >
                 {/* Introduction */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h1 className="
-                        text-5xl
+                        text-4xl
+                        sm:text-5xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         Privacy Policy.
                     </h1>
-
                     <p className="
                         text-lg
                         text-gray-700
-                        leading-relaxed
-                    ">
+                        leading-relaxed"
+                    >
                         This Privacy Policy explains how Todo Notes collects, 
                         uses, and protects information provided by users of the 
                         application. By using Todo Notes, you agree to the 
@@ -33,50 +37,58 @@ export default function PrivacyPolicy () {
                         this policy.
                     </p>
                 </section>
-
                 {/* Information collected */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         What info does MyNotes App collect?
                     </h2>
                     <p className="
                         text-lg
                         text-gray-700
-                        leading-relaxed
-                    ">
+                        leading-relaxed"
+                    >
                         The users Passwords are never stored in plain text by the 
                         App and are securely hashed before being saved. Additionally 
                         the app collects the following data:
                     </p>
-                    <ul className="list-disc pl-6">
+                    <ul className="
+                        text-gray-700 
+                        list-disc 
+                        text-lg 
+                        pl-5"
+                    >
                         <li>Name</li>
                         <li>Email Address</li>
                         <li>Account Preference</li>
                         <li>All of the content writtern for every note</li>
                     </ul>
                 </section>
-
                 {/* How is the information used? */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         How does the App use the information?
                     </h2>
                     <p className="
                         text-lg
                         text-gray-700
-                        leading-relaxed
-                    ">
+                        leading-relaxed"
+                    >
                         The App uses the information for the following purposes:
                     </p>
-                    <ul className="list-disc pl-6">
+                    <ul className="
+                        text-gray-700 
+                        text-lg 
+                        list-disc 
+                        pl-5"
+                    >
                         <li>Create and manage user accounts</li>
                         <li>Authenticate users securely</li>
                         <li>Store and organize notes</li>
@@ -84,80 +96,78 @@ export default function PrivacyPolicy () {
                         <li>Improve the application's functionality and user experience</li>
                     </ul>
                 </section>
-
                 {/* Data Security */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         What data security measures are taken by the App?
                     </h2>
                     <p className="
                         text-lg
                         text-gray-700
-                        leading-relaxed
-                    ">
+                        leading-relaxed"
+                    >
                         Reasonable measures are taken to protect user information 
                         from unauthorized access, disclosure, or modification. 
                         Authentication is handled using secure technologies including 
                         password hashing and token-based authentication.
                     </p>
                 </section>
-
                 {/* Cookies and Authentication */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         What Cookies and Authentication methods are used by the App?
                     </h2>
                     <p className="
                         text-lg
                         text-gray-700
-                        leading-relaxed
-                    ">
+                        leading-relaxed"
+                    >
                         MyNotes uses authentication cookies to keep users signed 
                         in and provide secure access to their accounts. These 
                         cookies are used solely for authentication purposes and 
                         are not used for advertising or tracking.
                     </p>
                 </section>
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         How does the App handle Account Deletion?
                     </h2>
                     <p className="
                         text-lg
                         text-gray-700
-                        leading-relaxed
-                    ">
+                        leading-relaxed"
+                    >
                         Users may delete their accounts at any time through the 
                         Profile page. Deleting an account permanently removes 
                         associated account information and user-generated 
                         content from the application.
                     </p>
                 </section>
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         Who do I contact if I have any question pertaining to the App?
                     </h2>
                     <p className="
                         text-lg
                         text-gray-700
-                        leading-relaxed
-                    ">
+                        leading-relaxed"
+                    >
                         If you have questions regarding this Privacy Policy, 
                         please contact the developer through the contact 
                         information provided on the About page.

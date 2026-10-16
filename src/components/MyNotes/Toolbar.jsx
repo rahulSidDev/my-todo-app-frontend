@@ -14,10 +14,9 @@ export default function Toolbar ({
             mt-5
             rounded-md
             border
-            border-slate-200
+            border-slate-300
             bg-white
-            p-2
-            shadow-sm"
+            p-2"
         >
             <div className="
                 flex
@@ -28,24 +27,21 @@ export default function Toolbar ({
             >
                 {/* Search */}
                 <div className="relative w-full sm:flex-1">
-                    <input
+                    <input className="
+                        w-full
+                        rounded-md
+                        border
+                        border-slate-300
+                        bg-slate-50
+                        px-2
+                        py-2
+                        text-gray-800
+                        outline-none
+                        transition
+                        focus:bg-white"
                         type="text"
                         placeholder="Search notes..."
                         onChange={(e) => searchNotes(e.target.value)}
-                        className="
-                            w-full
-                            rounded-md
-                            border
-                            border-slate-300
-                            bg-slate-50
-                            px-2
-                            py-2
-                            pl-2
-                            text-gray-800
-                            outline-none
-                            transition
-                            focus:bg-white
-                        "
                     />
                 </div>
                 {/* Sort */}

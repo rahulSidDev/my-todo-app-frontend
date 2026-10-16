@@ -8,6 +8,12 @@ export const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [messageProps, setMessageProps] = useState({
+        isOpen: false,
+        title: '',
+        message: '',
+        type: 'success'    
+    })
 
     useEffect(() => {
         checkAuth();
@@ -34,7 +40,9 @@ export function AuthProvider({ children }) {
         user,
         loading,
         setUser,
-        setLoading
+        setLoading,
+        messageProps,
+        setMessageProps
     };
 
     return (

@@ -1,6 +1,6 @@
 import Card from './Card'
 import {DndContext} from '@dnd-kit/core'
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import {
     SortableContext, 
     arrayMove, 
@@ -12,6 +12,7 @@ export default function Grid ({
     notes, 
     deleteNote, 
     updateCheckbox,
+    restoreNote,
     setNotes
 }) {
     const handleDragEnd = async ({active, over}) => {
@@ -72,10 +73,13 @@ export default function Grid ({
                     mt-2
                     text-gray-600"
                 >
-                    Create your first note to get started.
+                    {!restoreNote ? 
+                    'Create your first note to get started.' :
+                    'No deleted notes present.'}
                 </p>
             </div> : 
             <div className="
+                min-w-0
                 grid
                 grid-cols-1
                 sm:grid-cols-2
@@ -83,8 +87,8 @@ export default function Grid ({
                 xl:grid-cols-4
                 gap-5"
             >
-                <DndContext 
-                    onDragEnd={handleDragEnd}
+                <DndContext onDragEnd={handleDragEnd}
+                    modifiers={[restrictToWindowEdges]}
                 >
                     <SortableContext items={notes.map(note => note._id)}
                         strategy={rectSortingStrategy}>
@@ -93,6 +97,7 @@ export default function Grid ({
                                 note={note}
                                 deleteNote={deleteNote}
                                 updateCheckbox={updateCheckbox}
+                                restoreNote={restoreNote}
                             />
                         ))}
                     </SortableContext>

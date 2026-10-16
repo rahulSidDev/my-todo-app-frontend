@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { AuthContext } from "../contexts/auth"
 import { useNavigate } from "react-router-dom"
-import Grid from "../components/TrashBin/Grid"
+import Grid from "../components/MyNotes/Grid"
 import { 
     noteDeleteOne, 
     noteGetTrashed, 
@@ -11,7 +11,7 @@ import {
 
 export default function TrashBin () {
     const [notes, setNotes] = useState([])
-    const {user} = useContext(AuthContext)
+    const {user, setMessageProps} = useContext(AuthContext)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -29,17 +29,35 @@ export default function TrashBin () {
             setNotes(allNotes)
         }
         catch (e) {
-            console.log(e.message)
+            //console.log(e.message)
+            setMessageProps({
+                isOpen: true,
+                title: 'Fetch Note Error',
+                message: e.response.data.message,
+                type: 'failure'
+            })
         }
     }
 
     const deleteNote = async (id) => {
         try {
-            await noteDeleteOne(id)
+            const res = await noteDeleteOne(id)
             setNotes(notes.filter(note => note._id !== id))
+            setMessageProps({
+                isOpen: true,
+                title: 'Note Delete Successful',
+                message: res.data.message,
+                type: 'success'
+            })
         }
         catch (e) {
-            console.log(e.message)
+            //console.log(e.message)
+            setMessageProps({
+                isOpen: true,
+                title: 'Note Deletion Error',
+                message: e.response.data.message,
+                type: 'failure'
+            })
         }
     }
 
@@ -47,78 +65,106 @@ export default function TrashBin () {
         try {
             const res = await noteDeleteAll()
             setNotes([])
-            alert(res.data.message)
+            setMessageProps({
+                isOpen: true,
+                title: 'All Notes Deletion Successful',
+                message: res.data.message,
+                type: 'success'
+            })
         }
         catch (e) {
-            console.log(e.message)
+            //console.log(e.message)
+            setMessageProps({
+                isOpen: true,
+                title: 'All Notes Deletion Error',
+                message: e.response.data.message,
+                type: 'failure'
+            })
         }
     }
 
     const restoreNote = async (id) => {
         try {
-            await noteRestore(id)
+            const res = await noteRestore(id)
             setNotes(notes.filter(note => note._id !== id))
+            setMessageProps({
+                isOpen: true,
+                title: 'Restore Note Successful',
+                message: res.data.message,
+                type: 'success'
+            })
         }
         catch (e) {
-            console.log(e.message)
+            //console.log(e.message)
+            setMessageProps({
+                isOpen: true,
+                title: 'Restore Note Error',
+                message: e.response.data.message,
+                type: 'failure'
+            })
         }
     }
     
     return (
         <main className="
             min-h-screen
-            bg-slate-50
+            bg-slate-200
             pt-[55px]
+            px-4
+            sm:px-6
         ">
             <div className="
                 max-w-7xl
                 mx-auto
-                px-6
-                py-8
+                px-5
+                py-5
             ">
                 <h1 className="
-                    text-4xl
+                    text-3xl
+                    sm:text-4xl
                     font-bold
-                    mb-6
-                ">
+                    tracking-tight
+                    text-blue-950"
+                >
                     Trash Bin
                 </h1>
+                <p className="mt-2 text-gray-600">
+                    All deleted notes end up here.
+                </p>
                 <div className="
                     bg-red-50
                     border
                     border-red-200
-                    rounded-2xl
-                    p-4
-                    mb-8
+                    rounded-md
+                    p-2
+                    mt-5
                     flex
-                    justify-between
-                    items-center
-                ">
-                    <div>
-                        <p className="
-                            font-semibold
-                            text-red-700
-                        ">
-                            Warning: Notes deleted from the Trash Bin will be
-                            deleted permanently with no way of recovering.
-                        </p>
-                    </div>
-                    {
-                        notes.length !== 0 ?
-                        <button
+                    flex-col
+                    gap-4
+                    md:flex-row
+                    md:justify-between
+                    md:items-center"
+                >
+                    <p className="
+                        p-2
+                        font-semibold
+                        text-red-700"
+                    >
+                        Warning: Notes deleted from the Trash Bin will be
+                        deleted permanently with no way of recovering.
+                    </p>
+                    {notes.length !== 0 ?
+                    <button className="
+                        px-2
+                        py-2
+                        bg-red-600
+                        text-white
+                        rounded-md
+                        hover:bg-red-700"
                         onClick={deleteAllNotes}
-                        className="
-                            px-4
-                            py-2
-                            bg-red-600
-                            text-white
-                            rounded-xl
-                            hover:bg-red-700
-                        "
                     >
                         Delete All
-                    </button> : ''
-                    }
+                    </button> : ''}
                 </div>
                 <Grid
                     notes={notes}

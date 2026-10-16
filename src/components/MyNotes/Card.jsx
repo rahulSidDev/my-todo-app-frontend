@@ -100,17 +100,16 @@ export default function Card ({
     const preview = generatePreview(note.content, updateCheckbox, note.isTrashed, note._id);
 
     return (
-        <div
-            className={`
-                h-64
-                w-full
-                rounded-md
-                shadow
-                p-5
-                flex
-                flex-col
-                text-blue-950
-                ${noteColor}
+        <div className={`
+            h-64
+            w-full
+            rounded-md
+            shadow
+            p-5
+            flex
+            flex-col
+            text-blue-950
+            ${noteColor}
             `}
             style={style}
             ref={setNodeRef}
@@ -124,16 +123,19 @@ export default function Card ({
             >
                 <Link
                     to={`/note/${note._id}`}
-                    className="
+                    className={`
+                    ${!note.title && 'text-slate-400'}
                     text-xl
                     font-bold
                     truncate
                     leading-tight
+                    min-w-0
+                    flex-1
                     hover:underline
                     hover:decoration-2
-                    hover:underline-offset-2"
+                    hover:underline-offset-2`}
                 >
-                    {note.title}
+                    {note.title ? note.title : '[No Note Title]'}
                 </Link>
                 {!note.isTrashed ?
                 <button
@@ -157,22 +159,21 @@ export default function Card ({
                 </button>
                 : ''}
             </div>
-            <div className="
+            <div className={`
+                ${note.content.length === 0 && 'text-slate-400'}
                 overflow-hidden
                 line-clamp-5
-                whitespace-pre-wrap"
+                whitespace-pre-wrap`}
             >
-                {preview}
+                {note.content.length !== 0 ? preview : '[No Note Content]'}
             </div>
             {/* Footer */}
-            <div
-                className="
-                    mt-auto
-                    flex
-                    justify-between
-                    items-center
-                    pt-4
-                "
+            <div className="
+                mt-auto
+                flex
+                justify-between
+                items-center
+                pt-4"
             >
                 {/* Created date */}
                 <span className="text-sm text-gray-500">

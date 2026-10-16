@@ -8,8 +8,8 @@ import NotFound from "./pages/NotFound";
 import Note from "./pages/Note";
 import Profile from "./pages/Profile";
 
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import Navbar from "./components/misc/Navbar";
+import Footer from "./components/misc/Footer";
 
 import { useContext } from "react";
 
@@ -19,9 +19,15 @@ import ForgotPassword from "./pages/ForgotPassword";
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ProtectedRoute from "./services/ProtectedRoute";
+import MessageBox from "./components/misc/MessageBox";
 
 export default function App() {
-    const { user, loading } = useContext(AuthContext);
+    const { 
+        user, 
+        loading, 
+        messageProps,
+        setMessageProps
+     } = useContext(AuthContext);
 
     if (loading) {
         return <div></div>;
@@ -30,6 +36,15 @@ export default function App() {
     return (
         <div>
             <Navbar />
+            <MessageBox 
+                isOpen={messageProps.isOpen}
+                title={messageProps.title}
+                message={messageProps.message}
+                type={messageProps.type}
+                onClose={() => 
+                    setMessageProps({...messageProps, isOpen: false})
+                }
+            />
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />

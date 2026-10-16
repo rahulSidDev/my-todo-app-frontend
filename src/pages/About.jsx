@@ -1,3 +1,18 @@
+import { 
+    SiReact,
+    SiVite,
+    SiTailwindcss,
+    SiAxios,
+    SiReactrouter,
+    SiNodedotjs,
+    SiExpress,
+    SiJsonwebtokens,
+    SiMongodb,
+    SiVercel,
+    SiRender,
+    SiMongoose
+} from "react-icons/si";
+
 export default function About () {
     const features = [
         {
@@ -28,24 +43,24 @@ export default function About () {
 
     const techStack = {
         frontend: [
-            "React",
-            "Vite",
-            "Tailwind CSS",
-            "Axios",
-            "React Router"
+            ["React", <SiReact />],
+            ["Vite", <SiVite />],
+            ["Tailwind CSS", <SiTailwindcss />],
+            ["Axios", <SiAxios />],
+            ["React Router", <SiReactrouter />]
         ],
         backend: [
-            "Node.js",
-            "Express.js",
-            "JWT Authentication"
+            ["Node.js", <SiNodedotjs />],
+            ["Express.js", <SiExpress />],
+            ["JWT Authentication", <SiJsonwebtokens />]
         ],
         database: [
-            "MongoDB",
-            "Mongoose.js"
+            ["MongoDB", <SiMongodb />],
+            ["Mongoose.js", <SiMongoose />]
         ],
         deployment: [
-            "Vercel",
-            "Render"
+            ["Vercel", <SiVercel />],
+            ["Render", <SiRender />]
         ]
     };
 
@@ -69,30 +84,35 @@ export default function About () {
     return (
         <main className="
             min-h-screen
-            bg-slate-50
+            bg-slate-200
             pt-[55px]
-        ">
+            px-4
+            sm:px-6
+            overflow-x-hidden
+            text-blue-950"
+        >
             <div className="
-                max-w-6xl
+                max-w-7xl
                 mx-auto
-                px-6
-                py-12
-            ">
+                px-5
+                py-5"
+            >
                 {/* Hero */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h1 className="
-                        text-5xl
+                        text-4xl
+                        sm:text-5xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         What is MyNotes App?
                     </h1>
 
                     <p className="
                         text-lg
                         text-gray-700
-                        leading-relaxed
-                    ">
+                        leading-relaxed"
+                    >
                         MyNotes App is a very simple and elegant personal note taking
                         app. It streamlines the note taking experience of users by taking away the
                         unnecessary and unused features of a traditional notes app and only
@@ -105,12 +125,12 @@ export default function About () {
                 </section>
 
                 {/* Features */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         What can the MyNotes App do?
                     </h2>
                     {/* feature cards */}
@@ -118,26 +138,24 @@ export default function About () {
                         grid
                         md:grid-cols-2
                         lg:grid-cols-3
-                        gap-6
-                    ">
+                        gap-5"
+                    >
                         {features.map((feature) => (
-                            <div
+                            <div className="
+                                bg-white
+                                p-5
+                                rounded-md
+                                border
+                                border-slate-300"
                                 key={feature.title}
-                                className="
-                                    bg-white
-                                    p-6
-                                    rounded-2xl
-                                    shadow
-                                "
                             >
                                 <h3 className="
                                     text-xl
                                     font-semibold
-                                    mb-3
-                                ">
+                                    mb-3"
+                                >
                                     {feature.title}
                                 </h3>
-
                                 <p>
                                     {feature.description}
                                 </p>
@@ -147,49 +165,53 @@ export default function About () {
                 </section>
 
                 {/* Tech Stack */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
-                    ">
+                        mb-5"
+                    >
                         Technology Stack used for this App.
                     </h2>
                     {/* tech stack content */}
                     <div className="
                         grid
-                        md:grid-cols-2
-                        gap-6
-                    ">
+                        grid-cols-1
+                        md:grid-cols-4
+                        gap-5"
+                    >
                         {Object.entries(techStack).map(
                             ([category, technologies]) => (
-                                <div
+                                <div className="
+                                    bg-white
+                                    p-5
+                                    rounded-md
+                                    border
+                                    border-slate-300"
                                     key={category}
-                                    className="
-                                        bg-white
-                                        p-6
-                                        rounded-2xl
-                                        shadow
-                                    "
                                 >
                                     <h3 className="
                                         text-xl
                                         font-semibold
                                         mb-4
-                                        capitalize
-                                    ">
+                                        capitalize"
+                                    >
                                         {category}
                                     </h3>
 
                                     <ul className="
-                                        space-y-2
-                                    ">
+                                        space-y-2 
+                                        break-all"
+                                    >
                                         {technologies.map((tech) => (
-                                            <li
-                                                key={tech}
-                                                className="text-gray-700"
+                                            <li className="
+                                                text-gray-700
+                                                flex
+                                                items-center
+                                                gap-2"
+                                                key={tech[0]}
                                             >
-                                                • {tech}
+                                                {tech[1]} {tech[0]}
                                             </li>
                                         ))}
                                     </ul>
@@ -200,11 +222,11 @@ export default function About () {
                 </section>
 
                 {/* Why I Built It */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
+                        mb-5
                     ">
                         Why did I build this app?
                     </h2>
@@ -225,11 +247,11 @@ export default function About () {
                 </section>
 
                 {/* Contact */}
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
+                        mb-5
                     ">
                         Who am I?
                     </h2>
@@ -277,11 +299,11 @@ export default function About () {
                         of software engineering and web technologies.
                     </p>
                 </section>
-                <section className="mb-16">
+                <section className="mb-10">
                     <h2 className="
                         text-3xl
                         font-bold
-                        mb-6
+                        mb-5
                     ">
                         My Contact Info.
                     </h2>
@@ -291,19 +313,17 @@ export default function About () {
                         gap-4
                     ">
                         {contacts.map((contact) => (
-                            <a
+                            <a className="
+                                bg-white
+                                p-5
+                                rounded-md
+                                shadow
+                                hover:shadow-lg
+                                transition"
                                 key={contact.name}
                                 href={contact.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="
-                                    bg-white
-                                    p-6
-                                    rounded-2xl
-                                    shadow
-                                    hover:shadow-lg
-                                    transition
-                                "
                             >
                                 <h3 className="
                                     font-semibold
