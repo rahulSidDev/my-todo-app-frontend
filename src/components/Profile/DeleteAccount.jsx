@@ -1,76 +1,122 @@
-import { useState, useContext } from "react"
-import { useNavigate } from "react-router-dom"
-import { userDelete } from "../../api/user"
-import { AuthContext } from "../../contexts/auth"
+import { CgDanger } from "react-icons/cg";
+import { FcCancel } from "react-icons/fc";
+import { BsFillExclamationCircleFill } from "react-icons/bs";
 
-export default function DeleteAccount() {
-    const {setUser} = useContext(AuthContext)
-    const [password, setPassword] = useState({password: ''})
-    const navigate = useNavigate()
-
-    const handleDelete = async (e) => {
-        try {
-            e.preventDefault()
-            const res = await userDelete(password)
-            alert(res.data.message)
-            navigate('/', {replace: true})
-            setUser(null)
-        }
-        catch (error) {
-            console.log(error.message)
-        }
-    }
-
+export default function DeleteAccount({
+    password,
+    setPassword,
+    deleteConfirmation,
+    setDeleteConfirmation,
+    handleSubmit
+}) {
     return (
         <div className="
             bg-red-50
             border
             border-red-300
-            rounded-2xl
-            p-6
-        ">
+            rounded-md
+            p-5"
+        >
             <h2 className="
                 text-2xl
                 font-bold
                 text-red-700
-                mb-4
-            ">
+                mb-2"
+            >
                 Delete Account
             </h2>
             <p className="
                 text-red-600
-                mb-4
-            ">
-                This permanently deletes
-                your account and all notes.
+                mb-2
+                flex
+                gap-2"
+            >
+                <BsFillExclamationCircleFill
+                    className="shrink-0 mt-1"
+                    size={15}
+                />
+                This will permanently delete
+                your account and all your notes.
             </p>
-            <input
-                type="password"
-                placeholder="Enter password to confirm"
-                value={password.password}
-                onChange={(e) =>
-                    setPassword({...password, password: e.target.value})
-                }
-                className="
+            {!deleteConfirmation ?
+            <form onSubmit={(e) => {
+                e.preventDefault()
+                setDeleteConfirmation(true)
+            }}>
+                <label className="text-red-600">Password:</label>
+                <input className="
                     w-full
                     border
-                    rounded-xl
-                    p-3
-                    mb-4
-                "
-            />
-            <button
-                onClick={handleDelete}
-                className="
-                    px-5
-                    py-3
+                    border-red-600
+                    rounded-md
+                    p-2
+                    mb-5"
+                    type="password"
+                    required
+                    value={password.password}
+                    onChange={(e) =>
+                        setPassword({...password, password: e.target.value})
+                    }
+                />
+                <button className="
+                    flex
+                    gap-2
+                    items-center
+                    px-2
+                    py-2
                     bg-red-600
                     text-white
-                    rounded-xl
-                "
-            >
-                Delete My Account
-            </button>
+                    rounded-md
+                    hover:bg-red-500
+                    transition"
+                    type="submit"
+                >
+                    <CgDanger size={20}/>
+                    <span>Delete Account</span>
+                </button>
+            </form> :
+            <form onSubmit={handleSubmit}>
+                <p className="text-red-700 font-medium mb-5">
+                    Are you sure you want to delete your account?
+                </p>
+                <div className="flex items-center gap-4">
+                    <button className="
+                        flex
+                        gap-2
+                        border
+                        items-center
+                        px-2
+                        py-2
+                        bg-white
+                        rounded-md
+                        hover:bg-slate-100
+                        transition"
+                        onClick={() => {
+                            setDeleteConfirmation(false)
+                            setPassword({password: ''})
+                        }}
+                    >
+                        <FcCancel size={20}/>
+                        <span>Cancel</span>
+                    </button>
+                    <button className="
+                        flex
+                        gap-2
+                        items-center
+                        px-2
+                        py-2
+                        bg-red-600
+                        text-white
+                        rounded-md
+                        hover:bg-red-500
+                        transition"
+                        type="submit"
+                    >
+                        <CgDanger size={20}/>
+                        <span>Delete Account</span>
+                    </button>
+                </div>
+            </form>}
         </div>
     )
 }

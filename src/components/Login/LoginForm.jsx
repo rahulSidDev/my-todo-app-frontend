@@ -1,195 +1,86 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../../contexts/auth";
-import { userLogin } from "../../api/user";
-
-export default function LoginForm() {
-    const { user, setUser } = useContext(AuthContext);
-
-    const [error, setError] = useState('')
-    const [errorTimer, setErrorTimer] = useState(0)
-    const [loading, setLoading] = useState(false)
-    const [formData, setFormData] = useState({
-        email: "",
-        password: "",
-    });
-
-    const navigate = useNavigate();
-
-    const showError = (message) => {
-        setError(message);
-        setErrorTimer(5);
-    };
-
-    useEffect(() => {
-        if (!error) return;
-        
-        if (errorTimer <= 0) {
-            setError('')
-            return
-        }
-
-        const timer = setTimeout(() => {
-            setErrorTimer((prev) => prev - 1);
-        }, 1000);
-
-        return () => clearTimeout(timer);
-    }, [error, errorTimer]);
-
-    const handleChange = (event) => {
-        setFormData((preData) => ({
-            ...preData,
-            [event.target.name]: event.target.value,
-        }));
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        setLoading(true)
-        try {
-            //api call later
-            const res = await userLogin(formData);
-            if (res.data.success) {
-                setUser(res.data.user);
-                navigate("/my-notes", {replace: true});
-            }
-        } catch (error) {
-            console.log(error.message);
-            showError(
-                error.response?.data?.message || 
-                "Unable to log in. Please try again."
-            )
-        } finally {
-            setLoading(false)
-        }
-    }
+export default function LoginForm({
+    handleSubmit,
+    handleChange,
+    formData,
+    loading
+}) {
 
     return (
-        <>
         <form className="
-        space-y-5"
-        onSubmit={handleSubmit}
-        noValidate
+            space-y-5"
+            onSubmit={handleSubmit}
         >
-            {/* Error */}
-            {error && (<div className="
-            rounded-md
-            bg-red-50
-            border
-            border-red-200
-            px-5
-            py-5
-            text-sm
-            text-red-600
-            ">
-                {error} ({errorTimer}s)
-            </div>
-            )}
             {/* Email */}
             <label className="
-            block
-            font-medium
-            mb-2"
-            htmlFor="email"
+                block
+                font-medium
+                mb-2"
+                htmlFor="email"
             >
                 Email
             </label>
             <input className="
-            w-full
-            rounded-md
-            border
-            border-gray-300
-            px-4
-            py-4
-            text-gray-900"
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            autoComplete="email"
-            required
+                w-full
+                rounded-md
+                border
+                border-gray-300
+                px-4
+                py-4
+                text-gray-900"
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email"
+                autoComplete="email"
+                required
             />
             {/* Password */}
             <label className="
-            block
-            font-medium
-            text-gray-700
-            mb-2"
-            htmlFor="password"
+                block
+                font-medium
+                text-gray-700
+                mb-2"
+                htmlFor="password"
             >
                 Password
             </label>
             <input className="
-            w-full
-            rounded-md
-            border
-            border-gray-300
-            px-4
-            py-4
-            text-gray-900"
-            id="password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            autoComplete="current-password"
-            required
+                w-full
+                rounded-md
+                border
+                border-gray-300
+                px-4
+                py-4
+                text-gray-900"
+                id="password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                autoComplete="current-password"
+                required
             />
-            {/* Forgot password */}
-            <Link className="
-            flex
-            justify-center
-            text-sm
-            font-medium
-            text-blue-950
-            hover:underline
-            hover:decoration-2
-            underline-offset-4"
-            to="/forgot-password"
-            >
-                Forgot password?
-            </Link>
             {/* Login button */}
             <button className="
-            w-full
-            rounded-md
-            bg-blue-950
-            px-4
-            py-4
-            font-semibold
-            text-white
-            transition
-            hover:bg-blue-900
-            disabled:cursor-not-allowed
-            disabled:opacity-60"
-            type="submit"
-            disabled={loading}
+                w-full
+                rounded-md
+                bg-blue-950
+                px-4
+                py-4
+                font-semibold
+                text-white
+                transition
+                hover:bg-blue-900
+                disabled:cursor-not-allowed
+                disabled:opacity-60"
+                type="submit"
+                disabled={loading}
             >
                 {loading ? "Logging in..." : "Login"}
             </button>
         </form>
-        {/* Sign up */}
-        <div className="
-        mt-5
-        text-center
-        text-sm
-        text-gray-600
-        ">
-            Don't have an account?{" "}
-            <Link className="
-            font-semibold
-            text-blue-950
-            hover:underline
-            hover:decoration-2
-            underline-offset-4"
-            to="/signup"
-            >
-                Signup
-            </Link>
-        </div>
-        </>
     )
 }

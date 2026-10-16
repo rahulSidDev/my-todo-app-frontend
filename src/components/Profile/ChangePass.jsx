@@ -1,90 +1,81 @@
-import { useState, useContext } from "react"
-import { useNavigate } from "react-router-dom"
-import { AuthContext } from "../../contexts/auth"
-import { userChangePassword } from "../../api/user"
+import { BsFillExclamationCircleFill } from "react-icons/bs";
 
-export default function ChangePass() {
-    const {setUser} = useContext(AuthContext)
-    const navigate = useNavigate()
-
-    const [password, setPassword] = useState({
-        password: '',
-        newPass: '',
-        confirmNewPass: ''
-    })
-
-    const handleSubmit = async (e) => {
-        try {
-            e.preventDefault()
-            const res = await userChangePassword(password)
-            setUser(null)
-            alert(res.data.message)
-            navigate('/login', {replace: true})
-        }
-        catch (error) {
-            console.log(error.message)
-        }
-    }
-
+export default function ChangePass({
+    password,
+    setPassword,
+    handleSubmit
+}) {
     return (
         <div className="
             bg-white
-            rounded-2xl
-            shadow
-            p-6
-        ">
+            border
+            border-slate-300
+            rounded-md
+            p-5
+            text-blue-950"
+        >
             <h2 className="
                 text-2xl
                 font-bold
-                mb-6
-            ">
+                mb-2"
+            >
                 Change Password
             </h2>
-            <form
-                onSubmit={handleSubmit}
-                className="space-y-4"
+            <p className="
+                text-slate-600 
+                mb-2
+                gap-2
+                flex"
             >
-                <input
+                <BsFillExclamationCircleFill 
+                    className="shrink-0 mt-1" 
+                    size={15}
+                />
+                Changing your password will require you to log in again.
+            </p>
+            <form className="space-y-4"
+                onSubmit={handleSubmit}
+            >
+                <label>Current Password:</label>
+                <input className="
+                    w-full
+                    border
+                    rounded-md
+                    p-2"
                     type="password"
-                    placeholder="Current Password"
-                    value={
-                        password.password
-                    }
+                    required
+                    value={password.password}
                     onChange={(e) =>
                         setPassword({
                             ...password,
                             password: e.target.value
                         })
                     }
-                    className="
-                        w-full
-                        border
-                        rounded-xl
-                        p-3
-                    "
                 />
-                <input
+                <label>New Password:</label>
+                <input className="
+                    w-full
+                    border
+                    rounded-md
+                    p-2"
+                    required
                     type="password"
-                    placeholder="New Password"
-                    value={
-                        password.newPass
-                    }
+                    value={password.newPass}
                     onChange={(e) =>
                         setPassword({
                             ...password,
                             newPass: e.target.value
                         })
                     }
-                    className="
-                        w-full
-                        border
-                        rounded-xl
-                        p-3
-                    "
                 />
-                <input
+                <label>Confirm New Password:</label>
+                <input className="
+                    w-full
+                    border
+                    rounded-md
+                    p-2"
+                    required
                     type="password"
-                    placeholder="Confirm New Password"
                     value={
                         password.confirmNewPass
                     }
@@ -94,22 +85,16 @@ export default function ChangePass() {
                             confirmNewPass: e.target.value
                         })
                     }
-                    className="
-                        w-full
-                        border
-                        rounded-xl
-                        p-3
-                    "
                 />
-                <button
+                <button className="
+                    px-2
+                    py-2
+                    bg-blue-950
+                    text-white
+                    rounded-md
+                    hover:bg-blue-900
+                    transition"
                     type="submit"
-                    className="
-                        px-5
-                        py-3
-                        bg-blue-500
-                        text-white
-                        rounded-xl
-                    "
                 >
                     Update Password
                 </button>

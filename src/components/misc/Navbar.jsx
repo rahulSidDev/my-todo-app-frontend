@@ -1,7 +1,7 @@
 import { useState, useContext, useRef, useEffect } from "react";
-import { AuthContext } from "../contexts/auth";
+import { AuthContext } from "../../contexts/auth";
 import { useNavigate, Link } from "react-router-dom";
-import { userLogout } from "../api/user";
+import { userLogout } from "../../api/user";
 
 import { GiHamburgerMenu } from "react-icons/gi";
 import { ImCross } from "react-icons/im";

@@ -112,7 +112,6 @@ export default function CreateNote ({onClose, createNote}) {
                             setTitle(e.target.value)
                         }
                         placeholder="Enter Note Title"
-                        required
                     />
                     {/* Blocks */}
                     <div className="

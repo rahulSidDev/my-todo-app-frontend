@@ -21,7 +21,7 @@ export default function MyNotes() {
     const [showCreateNote, setShowCreateNote] = useState(false)
 
     const navigate = useNavigate()
-    const {user} = useContext(AuthContext)
+    const {user, setMessageProps} = useContext(AuthContext)
 
     useEffect(() => {
         if (!user) {
@@ -38,17 +38,35 @@ export default function MyNotes() {
             setNotes(allTodos)
         }
         catch (e) {
-            console.log(e.message)
+            //console.log(e.message)
+            setMessageProps({
+                isOpen: true,
+                title: 'Note Fetching Error',
+                message: e.response.data.message,
+                type: 'failure'
+            })
         }
     }
 
     const deleteNote = async (id) => {
         try {
-            await noteMoveToTrash(id)
+            const res = await noteMoveToTrash(id)
             setNotes(notes.filter(note => note._id !== id))
+            setMessageProps({
+                isOpen: true,
+                title: 'Note Deletion Successful',
+                message: res.data.message,
+                type: 'success' 
+            })
         }
         catch (e) {
-            console.log(e.message)
+            //console.log(e.message)
+            setMessageProps({
+                isOpen: true,
+                title: 'Note Deletion Error',
+                message: e.response.data.message,
+                type: 'failure'
+            })
         }
     }
 
@@ -59,29 +77,47 @@ export default function MyNotes() {
                 ...prev,
                 response.data.data
             ])
+            setMessageProps({
+                isOpen: true,
+                title: 'Note Creation Successful',
+                message: response.data.message,
+                type: 'success' 
+            })
             setShowCreateNote(false)
         }
         catch(e) {
-            console.log(e.message)
+            //console.log(e.message)
+            setMessageProps({
+                isOpen: true,
+                title: 'Note Creation Error',
+                message: e.response.data.message,
+                type: 'failure'
+            })
         }
     }
 
     const updateCheckbox = async (noteID, contentID) => {
         try {
-            let response = await noteCheckCheckbox(
+            const response = await noteCheckCheckbox(
                 noteID, 
                 {contentID: contentID}
             )
-            response = response.data.data
+            const updatedNote = response.data.data
             setNotes(notes.map(item => {
-                if (item._id.toString() === response._id) {
-                    return response
+                if (item._id.toString() === updatedNote._id) {
+                    return updatedNote
                 }
                 return item
             }))
         }
         catch (e) {
-            console.log(e.message)
+            //console.log(e.message)
+            setMessageProps({
+                isOpen: true,
+                title: 'Note Update Error',
+                message: e.response.data.message,
+                type: 'failure'
+            })
         }
     }
 
@@ -143,12 +179,13 @@ export default function MyNotes() {
 
     return (
         <div className="
-            overflow-x-hidden
             pt-[55px] 
             min-h-screen 
             bg-slate-200 
             px-4 
-            sm:px-6"
+            sm:px-6
+            overflow-x-hidden
+            overscroll-x-none"
         >
             <div className="
                 max-w-7xl 
@@ -204,11 +241,12 @@ export default function MyNotes() {
                 />
             </div>
             {/* Modal */}
-            {
-                showCreateNote && (
-                    <CreateNote createNote={createNote} onClose={() => setShowCreateNote(false)}/>
-                )
-            }
+            {showCreateNote && (
+                <CreateNote
+                    createNote={createNote}
+                    onClose={() => setShowCreateNote(false)}
+                />   
+            )}
         </div>
     )
 }
