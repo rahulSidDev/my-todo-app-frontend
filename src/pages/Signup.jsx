@@ -4,9 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { userOtp, userSignup } from "../api/user";
 import SignupForm from "../components/Signup/SignupForm.jsx";
 import OtpModal from "../components/misc/OtpModal.jsx";
-import MessageBox from "../components/misc/MessageBox.jsx";
-import PasswordReq from "../components/misc/PasswordReq.jsx";
-import passwordValidator from "../services/passwordValidator.jsx";
+import { 
+    validatePassword,
+    validateConfirmPass,
+    validateEmail
+} from "../services/formValidators.jsx";
 
 export default function Signup() {
     const [otpOpen, setOtpOpen] = useState(false)
@@ -20,9 +22,10 @@ export default function Signup() {
         password: "",
         confirmPass: "",
     });
-    const [formError, setFormError] = useState({
+    const [formError, setFormError] = useState('')
+    const [passMatch, setPassMatch] = useState({
         text: '',
-        failure: true,
+        isMatch: false
     })
 
     const { user, setMessageProps } = useContext(AuthContext);
@@ -39,28 +42,55 @@ export default function Signup() {
             ...preData,
             [event.target.name]: event.target.value,
         }));
-        if (
-            event.target.name === 'confirmPass' && 
-            event.target.value !== formData.password
-        ) {
-            setFormError({
-                text: 'Password and Confirm Password do not match.',
-                failure: true
-            })
-        }
-        if (
-            event.target.name === 'confirmPass' && 
-            event.target.value === formData.password
-        ) {
-            setFormError({
-                text: 'Password and Confirm Password match.',
-                failure: false
+        
+        if (event.target.name === 'confirmPass') {
+            const isMatch = validateConfirmPass(
+                formData.password,
+                event.target.value
+            )
+            setPassMatch({
+                text: isMatch
+                ? 'Password and Confirm Password match.'
+                : 'Password and Confirm Password do not match.',
+                isMatch: isMatch
             })
         }
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (formData.name === '') {
+            setFormError('Name field cannot be empty')
+            return
+        }
+        if (formData.email === '') {
+            setFormError('Email field cannot be empty')
+            return
+        }
+        if (!validateEmail(formData.email)) {
+            setFormError('Email is not valid')
+            return
+        }
+        if (formData.password === '') {
+            setFormError('Password cannot be empty')
+            return
+        }
+        const passErrors = await validatePassword(formData.password)
+        if (passErrors.length !== 0) {
+            setFormError(passErrors[0])
+            return
+        }
+        if (formData.confirmPass === '') {
+            setFormError('Confirm Password cannot be empty')
+            return
+        }
+        if (!validateConfirmPass(
+            formData.password,
+            formData.confirmPass
+        )) {
+            setFormError('Password and Confirm Password do not match')
+            return
+        }
         try {
             setLoading(true)
             const res = await userOtp(formData);
@@ -90,6 +120,7 @@ export default function Signup() {
                 isOpen: true,
                 type: 'success'
             })
+            navigate('/login')
         } catch (error) {
             //console.log(error)
             setMessageProps({
@@ -134,8 +165,7 @@ export default function Signup() {
             min-h-screen
             bg-slate-200
             pt-[75px]
-            px-5
-            py-5
+            p-5
             flex
             items-center
             justify-center"
@@ -185,8 +215,8 @@ export default function Signup() {
                     </div>
                     <SignupForm 
                         formError={formError}
-                        setMessageProps={setMessageProps}
                         formData={formData}
+                        passMatch={passMatch}
                         handleChange={handleChange}
                         loading={loading}
                         handleSubmit={handleSubmit}

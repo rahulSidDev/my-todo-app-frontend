@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import PasswordReq from '../misc/PasswordReq'
 
 export default function SignupForm({
     formData,
     formError,
+    passMatch,
     handleChange,
     loading,
     handleSubmit
@@ -12,6 +12,7 @@ export default function SignupForm({
         <form className="
             space-y-5"
             onSubmit={handleSubmit}
+            noValidate
         >
             {/* Name */}
             <label className="
@@ -67,7 +68,6 @@ export default function SignupForm({
             <label className="
                 block
                 font-medium
-                text-gray-700
                 mb-2"
                 htmlFor="password"
             >
@@ -89,11 +89,11 @@ export default function SignupForm({
                 placeholder="Enter your password"
                 required
             />
+            <PasswordReq />
             {/* Confirm Password */}
             <label className="
                 block
                 font-medium
-                text-gray-700
                 mb-2"
                 htmlFor="password"
             >
@@ -104,8 +104,7 @@ export default function SignupForm({
                 rounded-md
                 border
                 border-gray-300
-                px-4
-                py-4
+                p-4
                 text-gray-900"
                 id="confirmPass"
                 name="confirmPass"
@@ -115,17 +114,24 @@ export default function SignupForm({
                 placeholder="Re-enter your password"
                 required
             />
-            {formError.text && (
+            {passMatch.text && (
                 <p className={`
-                    mt-2
                     text-sm
                     ${
-                        !formError.failure ? 
+                        passMatch.isMatch ? 
                         'text-green-600' : 
                         'text-red-600'
                     }
                 `}>
-                    {formError.text}
+                    {passMatch.text}
+                </p>
+            )}
+            {formError && (
+                <p className="
+                    text-sm
+                    text-red-600"
+                >
+                    {formError}
                 </p>
             )}
             {/* Signup button */}

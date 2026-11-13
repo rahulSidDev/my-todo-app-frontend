@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom"
 import { userUpdateEmail, userUpdateEmailOtp, userUpdatePreferences } from "../api/user"
 import { userChangePassword } from "../api/user"
 import { userDelete } from "../api/user"
+import { 
+    validateConfirmPass, 
+    validatePassword 
+} from "../services/formValidators"
 
 import Details from "../components/Profile/Details"
 import ChangePass from "../components/Profile/ChangePass"
@@ -23,6 +27,11 @@ export default function () {
         password: '',
         newPass: '',
         confirmNewPass: ''
+    })
+    const [changePassError, setChangePassError] = useState('')
+    const [passMatch, setPassMatch] = useState({
+        text: '',
+        isMatch: false
     })
     const [deletePass, setDeletePass] = useState({password: ''})
     const [deleteConfirmation, setDeleteConfirmation] = useState(false)
@@ -136,6 +145,34 @@ export default function () {
 
     const handleChangePassSubmit = async (e) => {
         e.preventDefault()
+        if (changePass.password === '') {
+            setChangePassError('Current Password cannot be empty.')
+            return
+        }
+        if (changePass.newPass === '') {
+            setChangePassError('New Password cannot be empty.')
+            return
+        }
+        const newPassErrors = await validatePassword(changePass.newPass)
+        if (newPassErrors.length !== 0) {
+            setChangePassError(newPassErrors[0])
+            return
+        }
+        if (changePass.confirmNewPass === '') {
+            setChangePassError('Confirm New Password cannot be empty.')
+            return
+        }
+        if (!validateConfirmPass(
+            changePass.newPass, 
+            changePass.confirmNewPass
+        )) {
+            setPassMatch({
+                text: 'New Password and Confirm New Password do not match.',
+                isMatch: false
+            })
+            setChangePassError('New Password and Confirm New Password do not match')
+            return
+        }
         try {
             const res = await userChangePassword(changePass)
             setMessageProps({
@@ -228,6 +265,9 @@ export default function () {
                         password={changePass}
                         setPassword={setChangePass}
                         handleSubmit={handleChangePassSubmit}
+                        passMatch={passMatch}
+                        setPassMatch={setPassMatch}
+                        formError={changePassError}
                     />
                     <DeleteAccount 
                         password={deletePass}
