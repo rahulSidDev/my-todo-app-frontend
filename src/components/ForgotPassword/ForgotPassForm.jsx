@@ -1,8 +1,12 @@
+import PasswordReq from "../misc/PasswordReq"
+
 export default function ForgotPassForm({
     formData,
     handleChange,
     handleSubmit,
-    loading
+    loading,
+    formError,
+    passMatch
 }) {
     return (
         <form className="
@@ -24,8 +28,7 @@ export default function ForgotPassForm({
                 rounded-md
                 border
                 border-gray-300
-                px-4
-                py-4
+                p-4
                 text-gray-900"
                 id="email"
                 name="email"
@@ -61,6 +64,7 @@ export default function ForgotPassForm({
                 placeholder="Enter your new password"
                 required
             />
+            <PasswordReq password={formData.newPass}/>
             {/* Confirm New Password */}
             <label className="
                 block
@@ -86,6 +90,26 @@ export default function ForgotPassForm({
                 placeholder="Re-Enter your new password"
                 required
             />
+            {passMatch.text && (
+                <p className={`
+                    text-sm
+                    ${
+                        passMatch.isMatch ? 
+                        'text-green-600' : 
+                        'text-red-600'
+                    }
+                `}>
+                    {passMatch.text}
+                </p>
+            )}
+            {formError && (
+                <p className="
+                    text-sm
+                    text-red-600"
+                >
+                    {formError}
+                </p>
+            )}
             {/* Verify button */}
             <button className="
                 w-full
@@ -100,7 +124,6 @@ export default function ForgotPassForm({
                 disabled:cursor-not-allowed
                 disabled:opacity-60"
                 type="submit"
-                disabled={loading}
             >
                 {loading ? "Verifying..." : "Verify"}
             </button>

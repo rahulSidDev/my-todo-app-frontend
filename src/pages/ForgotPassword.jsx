@@ -4,6 +4,11 @@ import { useNavigate } from "react-router-dom"
 import ForgotPassForm from "../components/ForgotPassword/ForgotPassForm"
 import OtpModal from "../components/misc/OtpModal"
 import { userForgotPassVerify, userForgotPassword } from "../api/user"
+import { 
+    validateConfirmPass,
+    validateEmail,
+    validatePassword
+} from "../services/formValidators"
 
 export default function ForgotPassword () {
     const [otpModalOpen, setOtpModalOpen] = useState(false);
@@ -16,6 +21,11 @@ export default function ForgotPassword () {
         newPass: '',
         confirmNewPass: ''
     })
+    const [formError, setFormError] = useState('')
+    const [passMatch, setPassMatch] = useState({
+        text: '',
+        isMatch: false
+    })
 
     const {user, setMessageProps} = useContext(AuthContext)
     const navigate = useNavigate()
@@ -26,15 +36,60 @@ export default function ForgotPassword () {
         }
     }, [])
 
-    const handleChange = (event) => {
+    const handleChange = async (event) => {
         setFormData((preData) => ({
             ...preData,
             [event.target.name]: event.target.value,
         }));
+        
+        if (event.target.name === "confirmNewPass") {
+            const isMatch = validateConfirmPass(
+                formData.newPass,
+                event.target.value
+            )
+            setPassMatch({
+                text: isMatch
+                ? 'New Password and Confirm New Password match.'
+                : 'New Password and Confirm New Password do not match.',
+                isMatch: isMatch
+            })
+        }
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
+        if (formData.email === '') {
+            setFormError('Email cannot be empty.')
+            return
+        }
+        if (!validateEmail(formData.email)) {
+            setFormError('Email is not valid.')
+            return
+        }
+        if (formData.newPass === '') {
+            setFormError('New Password cannot be empty.')
+            return
+        }
+        const passErrors = await validatePassword(formData.newPass)
+        if (passErrors.length !== 0) {
+            setFormError(passErrors[0])
+            return
+        }
+        if (formData.confirmNewPass === '') {
+            setFormError('Confirm New Password cannot be empty.')
+            return
+        }
+        if (!validateConfirmPass(
+                formData.newPass,
+                formData.confirmNewPass
+        )) {
+            setPassMatch({
+                text: 'Confirm New Password does not match New Password.',
+                isMatch: false
+            })
+            setFormError('Confirm New Password does not match New Password.')
+            return
+        }
         try {
             setLoading(true)
             const res = await userForgotPassVerify(formData)
@@ -161,6 +216,8 @@ export default function ForgotPassword () {
                         handleChange={handleChange}
                         handleSubmit={handleSubmit}
                         loading={loading}
+                        formError={formError}
+                        passMatch={passMatch}
                     />
                 </div>
             </div>

@@ -2,13 +2,15 @@ export default function LoginForm({
     handleSubmit,
     handleChange,
     formData,
-    loading
+    loading,
+    formError
 }) {
 
     return (
         <form className="
             space-y-5"
             onSubmit={handleSubmit}
+            noValidate
         >
             {/* Email */}
             <label className="
@@ -63,6 +65,14 @@ export default function LoginForm({
                 autoComplete="current-password"
                 required
             />
+            {formError && (
+                <p className="
+                    text-sm
+                    text-red-600"
+                >
+                    {formError}
+                </p>
+            )}
             {/* Login button */}
             <button className="
                 w-full

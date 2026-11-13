@@ -1,9 +1,15 @@
 import { BsFillExclamationCircleFill } from "react-icons/bs";
+import PasswordReq from '../../components/misc/PasswordReq'
+import { validateConfirmPass } from '../../services/formValidators'
+import { useState } from "react";
 
 export default function ChangePass({
     password,
     setPassword,
-    handleSubmit
+    handleSubmit,
+    passMatch,
+    setPassMatch,
+    formError
 }) {
     return (
         <div className="
@@ -35,6 +41,7 @@ export default function ChangePass({
             </p>
             <form className="space-y-4"
                 onSubmit={handleSubmit}
+                noValidate
             >
                 <label>Current Password:</label>
                 <input className="
@@ -68,6 +75,7 @@ export default function ChangePass({
                         })
                     }
                 />
+                <PasswordReq />
                 <label>Confirm New Password:</label>
                 <input className="
                     w-full
@@ -76,19 +84,46 @@ export default function ChangePass({
                     p-2"
                     required
                     type="password"
-                    value={
-                        password.confirmNewPass
-                    }
-                    onChange={(e) =>
+                    value={password.confirmNewPass}
+                    onChange={(e) => {
+                        const isMatch = validateConfirmPass(
+                            password.newPass,
+                            e.target.value
+                        )
+                        setPassMatch({
+                            text: isMatch
+                            ? 'New Password and Confirm New Password match.'
+                            : 'New Password and Confirm New Password do not match',
+                            isMatch: isMatch
+                        })
                         setPassword({
                             ...password,
                             confirmNewPass: e.target.value
                         })
-                    }
+                    }}
                 />
+                {passMatch.text && (
+                    <p className={`
+                        text-sm
+                        ${
+                            passMatch.isMatch ? 
+                            'text-green-600' : 
+                            'text-red-600'
+                        }
+                    `}>
+                        {passMatch.text}
+                    </p>
+                )}
+                {formError && (
+                    <p className="
+                        text-sm
+                        text-red-600"
+                    >
+                        {formError}
+                    </p>
+                )}
                 <button className="
-                    px-2
-                    py-2
+                    p-2
                     bg-blue-950
                     text-white
                     rounded-md

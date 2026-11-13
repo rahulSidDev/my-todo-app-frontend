@@ -1,9 +1,9 @@
 import { useState, useContext, useEffect } from "react";
 import LoginForm from "../components/Login/LoginForm.jsx";
 import { useNavigate, Link } from "react-router-dom";
-import MessageBox from "../components/misc/MessageBox";
 import { AuthContext } from "../contexts/auth.jsx";
 import { userLogin } from "../api/user.jsx";
+import { validateEmail } from '../services/formValidators.jsx'
 
 export default function Login() {
     const { user, setUser, setMessageProps } = useContext(AuthContext);
@@ -14,7 +14,7 @@ export default function Login() {
         email: "",
         password: "",
     });
-    
+    const [formError, setFormError] = useState('')
     
     useEffect(() => {
         if (user) {
@@ -31,9 +31,20 @@ export default function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setLoading(true)
+        if (formData.email === '') {
+            setFormError('Email cannot be empty')
+            return
+        }
+        if (!validateEmail(formData.email)) {
+            setFormError('Email is not valid.')
+            return
+        }
+        if (formData.password === '') {
+            setFormError('Password cannot be empty')
+            return
+        }
         try {
-            //api call later
+            setLoading(true)
             const res = await userLogin(formData);
             if (res.data.success) {
                 setUser(res.data.user);
@@ -101,6 +112,7 @@ export default function Login() {
                         handleChange={handleChange}
                         formData={formData}
                         loading={loading}
+                        formError={formError}
                     />
                     {/* Forgot password */}
                     <Link className="

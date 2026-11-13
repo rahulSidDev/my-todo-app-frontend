@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 
 import Navbar from "./components/misc/Navbar";
 import Footer from "./components/misc/Footer";
+import BackendLoader from './components/misc/BackendLoader'
 
 import { useContext } from "react";
 
@@ -34,7 +35,7 @@ export default function App() {
     }
 
     return (
-        <div>
+        <BackendLoader>
             <Navbar />
             <MessageBox 
                 isOpen={messageProps.isOpen}
@@ -61,6 +62,6 @@ export default function App() {
                 </Route>
             </Routes>
             <Footer />
-        </div>
+        </BackendLoader>
     );
 }
