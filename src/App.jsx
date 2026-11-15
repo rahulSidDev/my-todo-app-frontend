@@ -23,16 +23,10 @@ import ProtectedRoute from "./services/ProtectedRoute";
 import MessageBox from "./components/misc/MessageBox";
 
 export default function App() {
-    const { 
-        user, 
-        loading, 
+    const {
         messageProps,
         setMessageProps
-     } = useContext(AuthContext);
-
-    if (loading) {
-        return <div></div>;
-    }
+    } = useContext(AuthContext);
 
     return (
         <BackendLoader>
